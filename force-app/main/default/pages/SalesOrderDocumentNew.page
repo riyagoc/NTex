@@ -1,0 +1,196 @@
+<apex:page standardController="Order" extensions="SalesOrderDocumentDetail" readOnly="advanced_pdf"
+           applyHtmlTag="false"
+           applyBodyTag="false"  
+           standardStylesheets="false"
+           sidebar="false"    
+           showHeader="false"    
+           cache="false"    
+           renderAs="advanced_pdf"
+           docType="html-5.0">
+ 
+<html>
+  <head>
+    <title>N-text Sales Order</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
+  </head>
+  <body style="margin:0;">
+   
+<div style="margin:0 auto; width:96%; font-size: 13px;">
+ 
+    
+  
+    <table border="1" cellpadding="0" cellspacing="0" style="width:100%; font-family: 'Open Sans', sans-serif; margin-top:0px; border-collapse:collapse; font-size:15px;">
+    <tr>
+    <td colspan="2" style="text-align:center; background:#067fc2; color:#fff; font-size:16px; padding:5px 0;">SALES ORDER</td>
+    </tr>
+    <tr>
+    <td>
+    <table style="width:100%;">
+    <tr>
+    <td><apex:image id="theImage" value="{!$Resource.NTexLogo2}" width="120px" height="31px" alt="Description of image here"/> </td>
+    <td>
+    <h1 style="margin:0; font-size:15px;font-family : Sans-serif">{!order.quote.Entity_Name__c}</h1>
+    <p style="margin:0;font-family : Sans-serif">4, Panchal Sahakari Udyog Nagar, Dudheshwar Road, Ahmedabad – 380004 </p>
+    </td>
+    </tr>
+    </table>
+    </td>
+    <td style="vertical-align:top;font-size:12px;font-family : Sans-serif">GSTIN/UIN: <b><apex:outputText rendered="{!if(order.quote.Entity_Name__c == "N-TEX Engineering Works",true,false)}" value="{!$Label.GST_N_TEX_Engineering}"/>
+        																				<apex:outputText rendered="{!if(order.quote.Entity_Name__c == "N-TEX Machinery Private Limited",true,false)}" value="{!$Label.GST_N_TEX_Machinery}"/></b><br/>
+State Name: <b>Gujarat,</b> Code: <b>24 </b><br/>
+E-Mail: <b>accounts@ntex.co.in  </b></td>
+    </tr>
+<tr>
+<td style="font-family : Sans-serif;font-size:15px"> Invoice to: <br/>{!Order.Account.Name}<br/>
+            {!order.Shipping_Address__r.Name},{!order.Shipping_Address__r.City__c},<br/>
+            {!order.Shipping_Address__r.State_Province__c}<br/><br/>
+            Contact person : {!con.Name}<br/>
+                Contact        : {!con.MobilePhone}<br/>
+                E-Mail         : {!con.Email}            
+            </td>
+<td style="vertical-align: top;font-family : Sans-serif">
+<table style="width:100%; border-collapse:collapse;">
+<tr>
+<td style="border-right: 1px solid #000; border-bottom: 1px solid #000;font-size:14px;"><b style="font-size:14px;">Voucher No.</b><br/>{!order.Voucher_No__c}</td>
+<td style="border-bottom: 1px solid #000;font-size:14px;"><b style="font-size:14px;">Dated </b><br/><apex:outputText value="{0,date,dd-MMM-yyyy}"> <apex:param value="{!Today()}" /> </apex:outputText></td>
+</tr>
+<tr>
+<td style="border-right: 1px solid #000; border-bottom: 1px solid #000;font-size:14px;"><b style="font-size:14px;">Other Reference(s)</b><br/>{!order.Other_Reference__c}</td>
+<td style=" border-bottom: 1px solid #000;font-size:14px;"><b style="font-size:14px;">Mode/Terms of Payment</b><br/>
+{!order.Quote.Payment_Term__c}
+</td>
+</tr>
+<tr>
+<td style="border-right: 1px solid #000; border-bottom: 1px solid #000;font-size:14px;"><b style="font-size:14px;">Buyer’s Ref./Order No.</b><br/>{!order.Buyer_s_Ref_Order_No__c}</td>
+<td style=" border-bottom: 1px solid #000;font-size:14px;"><b style="font-size:14px;">Buyer’s Date</b><br/><apex:outputText value="{0,date,dd-MMM-yyyy}"> <apex:param value="{!order.Buyer_s_Date__c}" /> </apex:outputText></td>
+</tr>
+<tr>
+<td style="border-right: 1px solid #000; font-size:14px;"><b style="font-size:14px;">Dispatch Through</b><br/>{!order.Dispatch_Through__c}</td>
+<td style="border-right: 1px solid #000; font-size:14px;"><b style="font-size:14px;">Destination</b><br/>{!order.Account.ShippingStreet},{!order.Account.ShippingCity},{!order.Account.ShippingState}</td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+        <table border="0" cellpadding="1" cellspacing="0" style="width:100%; font-family: sans-serif; margin-top:0px; border-collapse:collapse;font-size:12px;">
+        <tr>
+          <th style="border-right: 1px solid #000;border-bottom: 1px solid #000;border-left: 1px solid #000;text-align:center;">S.No</th>
+          <th style="border-right: 1px solid #000;border-bottom: 1px solid #000;text-align:center;">Description of Goods and Services</th>
+          <th style="border-right: 1px solid #000;border-bottom: 1px solid #000;text-align:center;">Part No.</th>
+          <th style="border-right: 1px solid #000;border-bottom: 1px solid #000;text-align:center;">Due on</th>
+          <th style="border-right: 1px solid #000;border-bottom: 1px solid #000;text-align:center; " colspan="2">Quantity</th>
+          <th style="border-right: 1px solid #000;border-bottom: 1px solid #000;text-align:center;">Rate</th>
+          <th style="border-right: 1px solid #000;border-bottom: 1px solid #000;text-align:center;">per</th>
+          <th style="border-right: 1px solid #000;border-bottom: 1px solid #000;text-align:center;">Disc. %</th>
+          <th style="border-right: 1px solid #000;border-bottom: 1px solid #000;text-align:center;">Amount</th>
+        </tr>
+      <!--  <tr style="border-top: none; border-bottom: none;">
+          <td style="border-right: 1px solid #000;border-left: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;"><b>&nbsp;</b></td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;border-left: 1px solid #000; text-align:center;">To Ship </td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;border-left: 1px solid #000;text-align:center;">To Bill </td> 
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">&nbsp;</td> 
+        </tr> -->
+        <apex:variable value="{!0}" var="i" />
+       <apex:repeat value="{!OLIlist}" var="ol">
+        <tr style="border-top:  none; border-bottom: 1px solid #000;">
+         
+          <td style="border-right: 1px solid #000;border-left: 1px solid #000;border-bottom: 1px solid #000;"><apex:variable value="{!i+1}" var="i" />{!i}</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;"><b>{!ol.Product2.Name}</b></td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">{!ol.Product2.ProductCode}</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;"><apex:outputText value="{0,date,dd-MMM-yyyy}"> <apex:param value="{!opps.Due_Date__c}" /> </apex:outputText></td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;" colspan="2">{!ol.Quantity}</td>
+        <!--  <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">{!ol.Quantity}</td> -->
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">{!ol.UnitPrice}</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">{!ol.Product2.UOM__c}</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">{!order.Quote.Discount}</td>
+          <td style="border-right: 1px solid #000;border-bottom: 1px solid #000;">{!ol.TotalPrice}</td>
+          
+        </tr>
+        </apex:repeat>
+       
+        <apex:outputText rendered="{!order.Quote.Packing__c== true}">
+            <tr style="">
+          <td colspan="9" style="text-align:right;font-weight:100;border-right: 1px solid #000;border-top: 1px solid #000;border-left: 1px solid #000;border-bottom: 1px solid #000;">Packing / Handling Charges</td>
+          <td style="text-align:right;border-right: 1px solid #000;border-top: 1px solid #000;border-bottom: 1px solid #000;">{!order.Quote.Packing_Charges__c}</td>
+          
+        </tr>
+        
+         </apex:outputText>
+        <tr style="">
+          <td colspan="9" style="text-align:right;font-weight:100;border-right: 1px solid #000;border-top: 1px solid #000;border-left: 1px solid #000;border-bottom: 1px solid #000;">Total</td>
+          <td style="text-align:right;border-right: 1px solid #000;border-top: 1px solid #000;border-bottom: 1px solid #000;">{!totalAmountwithPackingcharge}</td>
+          
+        </tr>
+         <apex:outputText rendered="{!flag == true}">
+         <tr style="">
+          <td colspan="9" style="text-align:right;font-weight:100;border-right: 1px solid #000;border-top: 1px solid #000;border-left: 1px solid #000;border-bottom: 1px solid #000;">CGST: 9%</td>
+          <td style="text-align:right;border-right: 1px solid #000;border-top: 1px solid #000;border-bottom: 1px solid #000;">{!cgst}</td>
+          
+        </tr>
+        <tr style="">
+          <td colspan="9" style="text-align:right;font-weight:100;border-right: 1px solid #000;border-top: 1px solid #000;border-left: 1px solid #000;border-bottom: 1px solid #000;">SGST:9% </td>
+          <td style="text-align:right;border-right: 1px solid #000;border-top: 1px solid #000;border-bottom: 1px solid #000;">{!sgst}</td>
+          
+        </tr>
+         </apex:outputText>
+          <apex:outputText rendered="{!flag == false}">
+          <td colspan="9" style="text-align:right;font-weight:100;border-right: 1px solid #000;border-top: 1px solid #000;border-left: 1px solid #000;border-bottom: 1px solid #000;">IGST:18% </td>
+          <td style="text-align:right;border-right: 1px solid #000;border-top: 1px solid #000;border-bottom: 1px solid #000;">{!igst}</td>
+          </apex:outputText>
+        <tr style="">
+          <td colspan="9" style="text-align:right;font-weight:600;border-right: 1px solid #000;border-top: 1px solid #000;border-left: 1px solid #000;border-bottom: 1px solid #000;">Total Amount</td>
+          <apex:outputText rendered="{!flag == true}">   
+              <td style="text-align:right;border-right: 1px solid #000;border-top: 1px solid #000;border-bottom: 1px solid #000;">{!totalAmountwithCGST}</td>
+          </apex:outputText>
+          <apex:outputText rendered="{!flag == false}">
+            <td style="text-align:right;border-right: 1px solid #000;border-top: 1px solid #000;border-bottom: 1px solid #000;">{!totalAmountwithIGST}</td> 
+          </apex:outputText>
+        </tr>
+        <tr style="border-top: none; border-bottom: none;">
+             <apex:outputText rendered="{!flag == true}">
+                  <td colspan="10" style="text-align:left;font-size:12px;border-left: 1px solid #000;border-right: 1px solid #000;font-family : Sans-serif"><b>Amount In Words: </b>INR {!amtInWords}</td>
+            </apex:outputText>
+             <apex:outputText rendered="{!flag == false}">
+                    <td colspan="10" style="text-align:left;font-size:12px;border-left: 1px solid #000;border-right: 1px solid #000;font-family : Sans-serif"><b>Amount In Words: </b>INR {!amtInwordsIGST}</td>
+            </apex:outputText>
+        </tr>
+       
+        <tr style="border-top: none; border-bottom: none;">
+        <td colspan="2" style="background:#067fc2; border-right: none;border-left: 1px solid #000;border-bottom: 1px solid #000;border-top: 1px solid #000;color:#fff; text-align:center; padding:5px 0;">Terms of Delivery </td>
+        <td colspan="8" style="background:#067fc2; border-left: none; padding: 0;border-right: 1px solid #000;color:#fff; border-top: 1px solid #000;border-bottom: 1px solid #000;text-align:center;padding:5px 0;">
+        Company’s Bank Details 
+        </td>
+        </tr>
+        <tr>
+        <td colspan="2" style="border-right: 1px solid #000;border-top: 1px solid #000;border-left: 1px solid #000;">&nbsp;</td>
+        <td colspan="8" style="border-right: 1px solid #000;">Bank Name: <b>{!bankdetails.Beneficiary_Bank__c} </b><br/>
+A/c No.: <b>{!bankdetails.Beneficiary_Account__c} </b><br/>
+Branch &amp; IFS Code:<b>Abhishree Adroit, Mansi Cross Road, Vastrapur, Ahme &amp; KKBK0002573 </b></td>
+        </tr>
+        
+        
+    </table>
+<table style="width:100%; font-family: 'Open Sans', sans-serif; margin-top:0px; border-collapse:collapse;font-size:15px; border-top: 1px solid #000; border-bottom: 1px solid #000; border-left: 1px solid #000;border-right: 1px solid #000;">
+<tr>
+        <td style="border-top:1px solid #000; border-right: 1px solid #000;  border-left: 1px solid #000; border-bottom: 1px solid #000;">Prepared by<br/><br/> Name &amp; Sign </td>
+        <td style="border-top:1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">Verified by <br/><br/> Name &amp; Sign </td>
+        <td style="border-top:1px solid #000; border-right:1px solid #000;">For {!order.quote.Entity_Name__c}  <br/><br/>Authorized Signatory </td>
+        </tr>
+        
+        <tr>
+        
+        <td colspan="1" style="vertical-align:top;border-bottom:1px solid #000;border-left:1px solid #000;">(This is a Computer-Generated Document) </td>
+        <td colspan="2" style="border-bottom:1px solid #000;border-right:1px solid #000;">&nbsp;<br/>E. &amp; O.E</td>
+        </tr>
+</table>    
+</div>
+  </body>
+</html>
+</apex:page>

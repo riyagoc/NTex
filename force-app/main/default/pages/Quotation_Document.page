@@ -1,0 +1,529 @@
+<apex:page readOnly="advanced_pdf" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" sidebar="false" showHeader="false"    
+           cache="false" renderAs="pdf" docType="html-5.0" standardController="Quote" extensions="QuotationController" action="{!controllermethod}">
+    <html>
+        <head>
+           
+            <style type="text/css" media="print">
+                @page {
+                margin-top: 120px;
+                margin-bottom: 170px;
+                @top-center {
+                content: element(header);
+                }
+                @bottom-center {
+                content: element(footer);
+                }
+                @bottom-left {
+                content: element(pagen);
+                }
+                }
+                div.header {
+                padding: 1px;
+                position: running(header);
+                }
+                div.footer {
+                position: running(footer);
+                }
+                .pagenumber:before {
+                content: counter(page);
+                }
+                .pagecount:before {
+                content: counter(pages);
+                }
+                p, a, h1, h2, h3, h4, h5, h6, span{font-family: 'Open Sans', sans-serif;}
+                
+            </style>
+            <a href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"></a>
+        </head>
+        <apex:pageBlock >
+            <body>
+                <div class="footer" style="margin-bottom: 80px;">
+                    <table style="border-collapse: collapse;width:100%; ">
+                        <tr><td style=" color:#000; font-family: 'Open Sans', sans-serif; font-size:10px; padding: 0; margin-bottom: 10px; padding-top:82px; "><b>Note:</b> This is computer generated transmission hence no signature required for Communication.</td>
+                        <td style="text-align:center; font-size:10px; font-family: 'Open Sans', sans-serif;"><apex:image url="{!$Resource.TuvIcon}" width="55" height="50"/><br/>
+                            <b>An ISO 9001:2008 Certified Company</b><br/></td> </tr> 
+					<tr><td colspan="2" style="border-top: 1px solid #000;"> <small style="color:#367da2; font-family: 'Open Sans', sans-serif; font-size:11px; font-weight:bold; padding-top:15px;">Regd. Office &amp; Works:</small></td></tr>
+                        <tr><td colspan="2" style="text-align:center; font-family: 'Open Sans', sans-serif; font-size:10px;"><span style="color:#000; font-family: 'Open Sans', sans-serif; font-size:10px; text-align:center; margin:0;">4, Panchal Sahakari Udhyog Nagar, Dudheshwar Road, Ahmadabad – 380 004, Gujarat (INDIA)</span></td></tr>
+                            <tr><td colspan="2" style="text-align:center; font-family: 'Open Sans', sans-serif; font-size:10px;"><b style="color:#578726;">T: </b> +91 79 2562 5772 || <b style="color:#578726;">Fax:</b> +91 79 2562 1048 || M: {!if(Quote.Type__c == 'Domestic'," +91 94260 88820","+91 80008 55577")} </td></tr>
+                            <tr><td colspan="2" style="text-align:center; font-family: 'Open Sans', sans-serif; font-size:10px;"><b style="color:#578726;">Email:</b> <a href="javascript:void(0);">{!if(Quote.Type__c == 'Domestic',"sales@ntex.co.in","export@ntex.co.in")}</a> || <a href="javascript:void(0);">www.ntex.co.in</a></td></tr>
+                    <tr><td colspan="2" style="text-align:right; font-family: 'Open Sans', sans-serif; font-size:10px;"><span style="text:align:right"><b> Page <span class="pagenumber"/> of <span class="pagecount"/></b></span></td></tr>
+                    </table>
+                </div>
+                <div style="margin:0 auto; width:100%; font-size: 12px;">
+                    <div class="header">
+                        <table border="0" style="width:100%; font-size: 12px; border-collapse: collapse; font-family: 'Open Sans', sans-serif;">
+                            <td style="margin-top: 100px;font-family: 'Open Sans', sans-serif;">
+                                <b>Ref:</b> {!Quote.Quote_Number__c}
+                            </td>
+                            <td style="margin-top: 100px;font-family: 'Open Sans', sans-serif; text-align: right;">
+                                <apex:image url="{!$Resource.NTexLogo2}" width="180" height="30"/><br/>
+                                <p style="font-family: 'Open Sans', sans-serif; font-size:10px; padding:0; margin:0; font-weight:bold;">SINCE 1972</p>
+                                <span style="margin-top:8px; display: inline-block;"><apex:outputText value="{0, date,EEEE d MMMM','  yyyy}"><apex:param value="{!NOW()}" /></apex:outputText></span>
+                            </td>
+                        </table>
+                    </div>
+                    <div style="width:100%; font-family: 'Open Sans', sans-serif; font-size: 12px;">
+                        <span>To,<br/>
+                            <apex:outputField value="{!Quote.Contact.Name}"/><br/>
+                            <span style="color:#367da2; font-size:16px; font-weight:bold;"><apex:outputField value="{!Quote.Account.Name}"/></span><br/>
+                            <apex:outputField value="{!Quote.Shipping_Address__r.Name}"/>,<br/>
+                            <apex:outputField value="{!Quote.Shipping_Address__r.City__c}"/>-<apex:outputField value="{!Quote.Shipping_Address__r.Zip_Postal_Code__c}"/>,<br/>
+                            <b><apex:outputField value="{!Quote.Shipping_Address__r.Country__c}"/></b></span>
+                    </div>
+                    
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;"><b>{!if(OR(Quote.Account.Whatsapp__c != null,Quote.Account.Mobile_1__c != null,Quote.Account.Mobile_2__c != null),"Mob: "," ")} </b><apex:outputField rendered="{!if(Quote.Account.Whatsapp__c != null,true,false)}" value=" {!Quote.Account.Whatsapp__c} "/> 
+                        {!if(AND(Quote.Account.Mobile_1__c != null,Quote.Account.Whatsapp__c != null)," / "," ")}
+                        <apex:outputField rendered="{!if(Quote.Account.Mobile_1__c != null,true,false)}" value="{!Quote.Account.Mobile_1__c} "/>
+                        {!if(AND(Quote.Account.Mobile_2__c != null,Quote.Account.Mobile_1__c != null)," / "," ")}
+                        <apex:outputField rendered="{!if(Quote.Account.Mobile_2__c != null,true,false)}" value=" {!Quote.Account.Mobile_2__c} "/></p>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;">
+                        <apex:outputField rendered="{!if(Quote.Account.Email_1__c != null,true,false)}" value=" {!Quote.Account.Email_1__c} "/> 
+                        {!if(AND(Quote.Account.Email_2__c != null,Quote.Account.Email_1__c != null)," / "," ")}
+                        <apex:outputField rendered="{!if(Quote.Account.Email_2__c != null,true,false)}" value="{!Quote.Account.Email_2__c} "/>
+                        {!if(AND(Quote.Account.Email_3__c != null,Quote.Account.Email_2__c != null)," / "," ")}
+                        <apex:outputField rendered="{!if(Quote.Account.Email_3__c != null,true,false)}" value=" {!Quote.Account.Email_3__c} "/>
+                    </p> 
+                    <p style="font-size:17px;font-family: 'Open Sans', sans-serif; text-align:center;">
+                        <b style="color:#367da2;">Subject:</b> <u style="color:#367da2;">Quote for N-Tex {!Quote.Name}</u></p>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;">Dear Sir,</p>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;">
+                        This has reference to inquiry, We thank you very much for the same.
+                    </p>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;">
+                        Herewith we are pleased to submit our most competitive techno-commercial offer, as per attached annexe,
+                        which contains:</p>
+                    <table border="0" style="width:100%; font-size: 12px; border-collapse:collapse; font-family: 'Open Sans', sans-serif;">
+                        <tr>
+                            <td style="color:#367da2;font-weight:bold;font-family: 'Open Sans', sans-serif;">Annexure A:</td>
+                            <td style="color:#ae1916;font-family: 'Open Sans', sans-serif;">Technical Specification of {!Quote.Subject__c}</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#367da2;font-weight:bold;font-family: 'Open Sans', sans-serif;">Annexure B:</td>
+                            <td style="color:#ae1916;font-family: 'Open Sans', sans-serif;">Scope of Supply and Price of {!Quote.Subject__c}</td>
+                        </tr>
+                        <tr style="display:{!if(Quote.Annexure_C_Title__c != '','','none')}">
+                            <td style="color:#367da2; font-weight:bold;font-family: 'Open Sans', sans-serif;">Annexure C:</td>
+                            <td style="color:#ae1916;">Additional Accessories of {!Quote.Annexure_C_Title__c}</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#367da2;font-weight:bold;font-family: 'Open Sans', sans-serif;">Annexure D:</td>
+                            <td style="color:#ae1916;">Commercial Terms and Conditions</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#367da2;font-weight:bold;font-family: 'Open Sans', sans-serif;">Annexure E:</td>
+                            <td style="color:#ae1916;">Acceptance of Commercial Terms and Conditions</td>
+                        </tr>
+                    </table>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;">Hope the same will meet with your requirements and serve your purpose.</p>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;">In case, you require any further clarification or information regarding our product, service or quotation, kindly reverts back to us.</p>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;">We would like to enter in a long-term mutual relationship with your esteemed organisation and will look forward to receive your valued order.</p>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;">Thanking you and assuring our best service at all time.</p>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;">Sincerely yours,</p>
+                    <p style="font-family: 'Open Sans', sans-serif; font-weight:bold; margin-top:50px; margin-bottom:0;font-size: 12px;">Mitesh Patel</p>
+                    <p style="font-family: 'Open Sans', sans-serif; font-weight:bold; margin:0;font-size: 12px;padding:0; margin:0;">Director</p>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;padding:0; margin:0;"><a href="javascript:void(0);">{!if(Quote.Type__c == 'Domestic',"sales@ntex.co.in","export@ntex.co.in")}</a> ||{!if(Quote.Type__c == 'Domestic'," +91 94260 88820","+91 80008 55577")}</p>
+                    <h1 style="font-family: 'Open Sans', sans-serif; margin:15px 0 0 0; font-size:14px;color:#367da2;"><apex:outputField value="{!Quote.Entity_Name__c}"/></h1>
+                    <h4 style="font-family: 'Open Sans', sans-serif;margin:0; font-size:12px; font-weight:normal; margin-bottom:10px;">(A Div. Of N-TEX Group Inc.)</h4>
+                    <div style="font-family: 'Open Sans', sans-serif; margin-top:0px;">
+                        <strong style="color:#367da2; font-family: 'Open Sans', sans-serif;">Enclosed:</strong>
+                        <ul style="padding:0; margin:0 0 0 20px;">
+                            <li>As above</li>
+                            <li>Leaflets</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="page-break-after:always;"/> 
+                 <h3 style="color:#ae1916; text-align:center;font-size:17px;font-family: 'Open Sans', sans-serif;width: 100%;
+                           margin: 10px auto 0;">Annexure A</h3>
+                <apex:repeat value="{!Quote.QuoteLineItems}" var="line">
+                    
+                    <h3 style="color:#ae1916; text-align:center;width:100%; margin:0 auto;">
+                        Technical Specification of<br/><apex:outputfield value=" {!line.Product2.name}"></apex:outputfield></h3>
+                    <apex:outputfield value="{!line.Product2.Description__c}"></apex:outputfield>
+                    <small style="font-family: 'Open Sans', sans-serif; font-size:10px; line-height:8px;">* The mentioned speed is approximate so it will be fluctuating. The rpm speed is Standard Built Motor speed is varying on due to Fluctuating
+                        of Electricity Supply because low electric supply slow down the motor speed and it effect slowing overall process. It affect the per hour
+                        production speed and speed also depend upon the operators bag feeding skill.</small>
+                    <div style="page-break-after:always;"/>  
+                </apex:repeat>
+                <h3 style="color:#ae1916; text-align:center;font-size:17px;font-family: 'Open Sans', sans-serif;width: 100%;
+                           margin: 10px auto 0;">Annexure B <br/>Scope of Supply and Price</h3>         
+                <h3 style="color:#367da2;font-family: 'Open Sans', sans-serif; margin:0; font-size:18px;padding:0;">Scope of Supply</h3>
+                <p style="padding:0;font-family: 'Open Sans', sans-serif;  margin:0 0 15px 0; font-size:11px;">The below mentioned machine will supply on <b style="color:#56873d;">Ex-works&nbsp;<apex:outputField value=" {!Quote.Place_of_Supply__c} "/> </b>basis. The price is exclusive of all taxes,
+                    duties &amp; forwarding charges. If you require <b>Packing</b> then charges for the same <b>will be extra.</b></p>
+                <h3 style="padding:0; margin:0;text-align:center; color:#347ea3;font-family: 'Open Sans', sans-serif;font-size:18px;">PERFORMA INVOICE</h3>
+                <apex:variable value="{!1}" var="count" />
+                <table border="size:A4 portrait;border: 1px solid black;" cellpadding="3" style="width:100%; text-align:center; font-size: 12px;border-collapse:collapse;font-family: 'Open Sans', sans-serif;margin-top:0px;">
+                    
+                    <tr>
+                        <td style="font-weight:bold; color:#6696c3;width:4%;">Sl.No.</td>
+                        <td style="font-weight:bold; color:#6696c3;width:50%;">Description</td>
+                        <td colspan="2" style="font-weight:bold; color:#6696c3;width:15%;">Qty.</td>
+                        <td style="font-weight:bold; color:#6696c3;width:15%;">Ex. Works <br/>Price / Each</td>
+                        <td style="font-weight:bold; color:#6696c3;width:15%;">Ex. Works <br/>Price / Total</td>
+                    </tr>
+                    <apex:repeat value="{!Quote.QuoteLineItems}" var="QuoteLineItem">
+                        <tr>
+                            <td style="color:#62b1df;">{!count}<apex:variable value="{!count+1}" var="count" /> </td>
+                            <td style="text-align:left"><b><apex:outputfield value="{!QuoteLineItem.Product2.Name}"></apex:outputfield></b><br/><span><apex:outputfield value="{!QuoteLineItem.Product2.Short_Description__c}"></apex:outputfield></span>
+                            <ul style="list-style:none; padding:0; margin:0;">
+                                <li style="font-weight:bold;">Speed up to: <span style="color:#ff261a;">{!QuoteLineItem.Speed_Up_To__c}</span></li>
+                                <li style="font-weight:bold;">Model: <span style="color:#ff261a;">{!QuoteLineItem.Model__c}</span></li>
+                                <li style="font-weight:bold;">HS Code:<span style="color:#ff261a;">{!QuoteLineItem.HSN_Code__c}</span></li>
+                                </ul>
+                            </td>
+                            <td style=""><apex:outputfield value="{!QuoteLineItem.Quantity}"></apex:outputfield></td>
+                            <td style="">{!QuoteLineItem.Product2.UOM__c}</td>
+                            <td style="">{!QuoteLineItem.CurrencyIsoCode}&nbsp;
+                                <apex:outputText value="{0, number,  ##,##,###.##}">
+                                    <apex:param value="{!QuoteLineItem.UnitPrice}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="text-align:right">{!QuoteLineItem.CurrencyIsoCode}&nbsp;
+                                <apex:outputText value="{0, number,  ##,##,###.##}">
+                                <apex:param value="{!QuoteLineItem.Performa_Total_Amount__c}" />
+                            </apex:outputText>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td colspan="5" style="font-weight; text-align:right">Total Ex. Works Price in {!if(Quote.Type__c == 'Domestic',"INR","U.S. Dollar")} </td>
+                        <td style="text-align:right">{!Quote.CurrencyIsoCode}&nbsp;
+                            <apex:outputtext value="{0, number,  ##,##,###.##}">
+                                <apex:param value="{!Quote.Total_Amount__c}" />
+                            </apex:outputtext>
+                        </td>
+                    </tr>
+                    <tr style="display:{!if(Quote.Packing__c == True,'','none')}">
+                        <td colspan="5" style="text-align:right"><apex:outputField rendered="{!if(Quote.Packing__c == True,true,false)}" value=" {!Quote.Packing_Type__c} "/></td>
+                        <td style="text-align:right">{!Quote.CurrencyIsoCode}&nbsp;
+                        <apex:outputtext rendered="{!if(Quote.Packing__c == True,true,false)}" value=" {0, number,  ##,##,###.##} ">
+                            <apex:param value="{!Quote.Packing_Charges__c}" />
+                        </apex:outputtext>
+                        </td>
+                    </tr>
+                    <tr style="display:{!if(AND(Quote.FOB__c == True,Quote.Type__c=='Export'),'','none')}">
+                        <td colspan="5" style=" text-align:right"><apex:outputText value="{!if(Quote.FOB__c == True,""," ")}"/>{!Quote.Total_Amount_Label__c} </td>
+                        <td style="font-weight; text-align:right">{!Quote.CurrencyIsoCode}&nbsp;
+                            <apex:outputtext rendered="{!if(Quote.FOB__c == True,true,false)}" value="{0, number,  ##,##,###.##}">
+                                <apex:param value="{!Quote.FOB_Charges__c}" />
+                            </apex:outputtext>
+                        </td>
+                    </tr>
+                    <tr style="display:{!if(AND(Quote.FOB__c == True,Quote.Type__c='Export'),'','none')}">
+                        <td colspan="5" style="font-weight; text-align:right;color:#ee332d;"><apex:outputText value="{!if(AND(Quote.FOB__c == True,Quote.Type__c == 'Domestic'),"Total FOB Value in INR "," ")}"/>
+                            <apex:outputText value="{!if(AND(Quote.FOB__c == True,Quote.Type__c != 'Domestic'),"Total FOB Value in U.S. Dollar "," ")}"/></td>
+                        <td style="font-weight; text-align:right">{!Quote.CurrencyIsoCode}&nbsp;
+                            <apex:outputtext rendered="{!if(Quote.FOB__c == True,true,false)}" value=" {0, number,  ##,##,###.##}">
+                                <apex:param value="{!Quote.Total_FOB__c}" />
+                            </apex:outputtext>
+                        </td>
+                    </tr>
+                    <tr style="display:{!if(Quote.Transportation_Charges__c == True,'','none')}">
+                        <td colspan="5" style="font-weight; text-align:right"><apex:outputText value="{!if(Quote.Transportation_Charges__c == True,"","")}"/>
+                            <apex:outputText value="{!(Quote.Transport_Label__c)}"/></td>
+                        <td style="text-align:right">{!Quote.CurrencyIsoCode}&nbsp;
+                            <apex:outputtext rendered="{!if(Quote.Transportation_Charges__c == True,true,false)}" value=" {0, number,  ##,##,###.##} ">
+                                <apex:param value="{!Quote.Transport_Charges__c}" />
+                            </apex:outputtext>
+                        
+                        </td>
+                    </tr>
+                    <tr style="display:{!if(AND(Quote.Transportation_Charges__c == True,Quote.Type__c='Export'),'','none')}">
+                        <td colspan="5" style="font-weight; text-align:right;color:#ee332d;"><apex:outputText value="{!if(AND(Quote.Transportation_Charges__c == True,Quote.Type__c == 'Domestic'),"Total Price C & F By Road in INR up to "," ")}"/>
+                            <apex:outputText value="{!if(AND(Quote.Transportation_Charges__c == True,Quote.Type__c != 'Domestic'),"Total Price C & F By Road in U.S. Dollar up to "," ")}"/>
+                            <apex:outputText value="{!(Quote.Transport_To__c)}"/></td>
+                        <td style="text-align:right">{!Quote.CurrencyIsoCode}&nbsp;
+                            <apex:outputtext rendered="{!if(Quote.Transportation_Charges__c == True,true,false)}" value=" {0, number,  ##,##,###.##} ">
+                                <apex:param value="{!Quote.Total_C_K__c}" />
+                            </apex:outputtext>
+                        </td>
+                    </tr>
+                    
+                    <tr style="display:{!if(Quote.Insurance__c == True,'','none')}">
+                        <td colspan="5" style="font-weight; text-align:right"><apex:outputText value="{!if(Quote.Insurance__c == True,"Insurance("," ")}"/>
+                            <apex:outputField rendered="{!if(Quote.Insurance__c == True,true,false)}" value="{!Quote.Insurance1__c}"/>
+                            <apex:outputText rendered="{!if(Quote.Insurance__c == True,true,false)}" value=")"/></td>
+                        <td style="font-weight; text-align:right">{!Quote.CurrencyIsoCode}&nbsp;
+                        <apex:outputtext rendered="{!if(Quote.Insurance__c == True,true,false)}" value=" {0, number,  ##,##,###.##} ">
+                            <apex:param value="{!Quote.Final_Value__c}" />
+                        </apex:outputtext>
+                        </td>
+                    </tr>
+                    <tr style="display:{!if(AND(Quote.Insurance__c == True,Quote.Type__c='Export'),'','none')}">
+                        <td colspan="5" style="font-weight; text-align:right"><apex:outputText value="{!if(Quote.Insurance__c == True,"Total CIF Value"," ")}"/></td>
+                        <td style="font-weight; text-align:right">{!Quote.CurrencyIsoCode}&nbsp;
+                            <apex:outputtext rendered="{!if(Quote.Insurance__c == True,true,false)}" value=" {0, number,  ##,##,###.##} ">
+                            <apex:param value="{!Quote.Total_CIF__c}" />
+                            </apex:outputtext>
+                        </td>
+                    </tr>
+                    <!--tr style="display:{!if(Quote.GST__c == True,'','none')}">
+                        <td colspan="5" style="font-weight:bold; text-align:right;color:#ee332d;"><apex:outputText value="{!if(Quote.GST__c == True,"G. S. T. @ ("," ")}"/>
+                            <apex:outputField rendered="{!if(Quote.GST__c == True,true,false)}" value="{!Quote.GST_Percentage__c}"/>
+                            <apex:outputText value="{!if(Quote.GST__c == True,")%"," ")}"/></td>
+                        <td style="text-align:right">{!Quote.CurrencyIsoCode}&nbsp;
+                        <apex:outputtext rendered="{!if(Quote.GST__c == True,true,false)}" value=" {!Quote.Total_GST__c} "/></td>
+                    </tr-->
+                     <tr>
+                        <td colspan="5" style="font-weight:bold; text-align:right;">{!Quote.Total_Price_Label__c} {!if(Quote.Type__c == 'Domestic',"With GST ","")}</td>
+                        <td style="text-align:right"><b>{!Quote.CurrencyIsoCode}&nbsp;<apex:outputtext value=" {0, number,  ##,##,###.##} ">
+                            <apex:param value="{!Quote.Total_OF_All__c}" />
+                            </apex:outputtext></b> </td>
+                    </tr>
+                 <tr>
+                        <td colspan="5" style="font-weight:bold; text-align:right;color:#ee332d;">Round Off</td>
+                     <td style="text-align:right;color:#ee332d;"><b>{!roundoffValue}</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" style="font-weight:bold; text-align:right; color:#ee332d;"><b>{!Quote.Total_Price_Label__c} in word {!if(Quote.Type__c == 'Domestic',"INR ","U.S. Dollar ")}{!amtInWords}</b></td>
+                    </tr>
+                </table>
+                
+                <small>
+                    <ul style="list-style:none; padding:0;font-family: 'Open Sans', sans-serif;font-size:11px;">
+                        <li><b><u>Note:</u></b> Optional accessories are not compulsory with standard machine, but it will help to increase machine stability and performance.</li>
+                        <li>* Required control panel.</li>
+                        <li>** The prices given above are our current standard price. However, prices ruling at the time of dispatch shall be charged.</li>
+                        <li>*** Due to our ongoing commitment to serve you better technology, we reserve the rights for any technical alteration in our machine and motioned specification without any prior notice.</li></ul>
+                </small>
+                <div style="page-break-after:always;"/>
+                <div style="display:{!if(Quote.Annexure_C_Details__c != '','','none')}">
+                <h3 style="color:#ae1916; text-align:center;font-family: 'Open Sans', sans-serif; width: 100%;
+                           margin: 30px auto 50px;font-size:17px;">Annexure C<br/>
+                    Additional Accessories Benefits (Accessories at Extra coast)
+                    {!Quote.Annexure_C_Title__c}</h3>
+                <apex:outputfield value="{!Quote.Annexure_C_Details__c}"></apex:outputfield>
+                <!--h1 style="color:#367da2; font-family: 'Open Sans', sans-serif; font-size:16px;">iDDCS (Don’t Dirty Conveyor System) - (Exclusive Developed)</h1>       
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">Intelligent DDCS, can prevent stereo impression on bag conveyor if user miss the
+                    feeding of bag. with help of same user can also save unprinted bag’s back side at
+                    the time time of printing on front side.</p>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">In result of same user avoid bag rejection due to back side impression (up to 7%)
+                    as well as can save ink (up to 10%) which sticked on bag conveyor at time of bag
+                    miss feeding. (% by market survey)</p>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">Saves Conveyor Belt and Increase Life of Conveyor Belt.</p>
+                <h1 style="font-size:16px;color:#367da2; font-family: 'Open Sans', sans-serif;font-size:16px;">All Helical Common Drive System - (HCDS) (Exclusive Developed)</h1>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">With help of helical drive system user can get closer registration, as it connects all printing Stereo drum along with Bag Conveyor with single common shaft.</p>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">In result user can avoid frequent attention to tighten chain drive, and increase productivity by save time from this operations.</p>
+                <h1 style="color:#367da2; font-family: 'Open Sans', sans-serif; font-size:16px;">iReport (Exclusive Developed)</h1>
+                <div>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size:16px;">With help of Intelligent report System, machine supervisor can get advance and various type production report,<br/>
+                        i.e.</p>
+                    <ul style="font-size:16px;padding:0 0 0 10px; margin:0;font-family: 'Open Sans', sans-serif;">
+                        <li>Total Sheet Feed by user</li>
+                        <li>Total of miss feed bags / empty feed stroke in machine</li>
+                        <li>User efficiency v/s. machine efficiency</li>
+                        <li>Batch wise Printed Bag Report</li>
+                    </ul>
+                </div>
+                <h1 style="color:#367da2; font-family: 'Open Sans', sans-serif; font-size:16px;">Brush Roller</h1>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">Printing plates are key function area of quality printing, to get clean image cleaning printing plates by brush roll, we can clean Printing Stereo, as well we
+                    can avoid manual stereo hand cleaning clumsy operation</p>
+                <h1 style="color:#367da2; font-family: 'Open Sans', sans-serif; font-size:16px;">Variable Speed A.C. Drive Controller</h1>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">Variable speed A. C. drive controller(Inverter) can control machine speed according to user requirement.</p>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">Additionally will help to reduce electricity consumption up to 30% *. and avoid
+                    damage of machine component by using soft start.</p>
+                <h1 style="color:#367da2; font-family: 'Open Sans', sans-serif; font-size:16px;">iCounter</h1>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">Intelligent Sheets/Bags counter will help to count bags at bag delivery on
+                    machine at actual.</p>
+                <h1 style="color:#367da2; font-family: 'Open Sans', sans-serif; font-size:16px;">Ink Circulating Systeam</h1>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">System will circulates ink to reduce stillness of ink, and stop to get ink thicker.</p>
+                
+                <h1 style="color:#367da2; font-family: 'Open Sans', sans-serif; font-size:16px;">iDryer</h1>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">Intelligent dryer will help to dry the printer sheet/bags, when cold / moisture present in environment. it can maintain heat chamber preset by user.</p>
+                
+                <h1 style="color:#367da2; font-family: 'Open Sans', sans-serif; font-size:16px;">iConroller</h1>
+                <p style="font-size:16px;color:#000; font-family: 'Open Sans', sans-serif;">With help of Intelligent Controller user can save electricity of machine with coast effective way, iController will put machine in power saving mode in ideal/non use
+                    condition, when user are away from machine</p-->
+                </div>
+                <div style="page-break-after:always;"/>
+                
+                <h2 style="color:#ae1916; text-align:center; font-family: 'Open Sans', sans-serif;width: 70%; margin: 0 auto;font-size:17px;">Annexure D<br/>
+                    Commercial Terms &amp; Conditions</h2>
+                <apex:pageBlock rendered="{! If(Quote.Type__c=='Export' ,true,false) }">
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">PRICE:</b> The Basic prices quoted are based on <apex:outputText rendered="{!if(AND(Quote.FOB__c == true,Quote.Transportation_Charges__c==true,Quote.Insurance__c == true),true,false)}" value=" CIF" />
+                    <apex:outputText rendered="{!if(AND(Quote.FOB__c == true,Quote.Transportation_Charges__c!=true,Quote.Insurance__c != true),true,false)}" value=" FOB"/>
+                    <apex:outputText rendered="{!if(AND(Quote.FOB__c != true,Quote.Transportation_Charges__c==true,Quote.Insurance__c != true),true,false)}" value=" Ex-works"/>
+                    <apex:outputText rendered="{!if(AND(Quote.FOB__c != true,Quote.Transportation_Charges__c!=true,Quote.Insurance__c != true),true,false)}" value=" Ex-works" />
+                    ,<apex:outputField value=" {!Quote.Place_of_Supply__c} "/>(INDIA).</p>
+                <apex:outputText rendered="{!if(Quote.Packing__c == True,true,false)}">
+                    <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">PACKING:</b> <apex:outputField value=" {!Quote.Packing_Type__c} "/>  is included in the price</p>
+                </apex:outputText>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">DELIVERY:</b><apex:outputfield value=" {!Quote.Delievery_Time__c}"></apex:outputfield> ex our works from the date of receipt of your confirm order and advance payment. Delivery will also subject to force major conditions. We shall try to make shipment as fast as possible.</p>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">PAYMENT TERMS:</b> <apex:outputText value=" {!if(Quote.Payment_Term__c == '100% by L.C'," By T.T. OR Against LC with below Terms.","")}"/>
+                    <apex:outputText value=" {!if(Quote.Payment_Term__c == '50% Advance, Balance Against Pro-Forma Invoice, before dispatch of Goods'," 50% advances along with the order and balance against Performa invoice
+                                     including all taxes, packing and forwarding charges. Octroi if any, installation charges etc is to be paid
+                                     before taking delivery of the machines documents can be negotiated through any recognised bank for
+                                     payment by you. The bank charges are to be born by you. The advance payment once paid will not be
+                                     returned in any event. Demand Draft will be in favour of N-TEX Machinery Private Limited payable
+                                     at "," ")}"/><apex:outputField rendered="{!if(Quote.Payment_Mode__c == 'RTGS / NEFT',true,false)}" value=" {!Quote.Place_of_Supply__c} "/>
+                    <apex:outputText value=" {!if(Quote.Payment_Term__c == '50% Advance',"50% payment in advance along with the order and Balance 50% on our intimation that machinery is ready for shipment. ","")}"/>
+                    <apex:outputText value=" {!if(Quote.Payment_Term__c == '100% Advance',"100% payment in advance along with the order and machinery is ready for shipment.","")}"/>
+                    <apex:outputText value=" {!if(AND(Quote.Payment_Term__c == '100% Advance',Quote.Payment_Mode__c == 'RTGS / NEFT'),"100% advance along with the order including all taxes, packing and forwarding charges.","")}"/></p>
+                
+                
+                
+                <p style="padding:0; font-family: 'Open Sans', sans-serif; font-size:12px; display:{!if(Quote.Payment_Term__c == '100% by L.C','','none')}">
+                    <apex:outputText value="1. Payment 100% by IRRECOVERABLE LC." /><br/>
+                    <apex:outputText value="2. TENOR: AT SIGTH LC (Latter of Credit)." /><br/>
+                    <apex:outputText value="3. LC VALIDITY: 180 Days (6 month)." /><br/>
+                    <apex:outputText value="4. Bank Charges: All Bank Charges outside INDIA will in Buyer Accounts Only. All Banks Charges inside INDIA will be on our accounts." /><br/>
+                    <apex:outputText value="5. LC Should be from reputed Nationalise Bank of USA / UK Only." /><br/>
+                    <apex:outputText value="6. DISCREPANCY CHARGES: If any will in Buyer Account." /><br/>
+                    <apex:outputText value="7. LC is under Name of: N-TEX ENGINEERING WORKS." /><br/>
+                </p>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><apex:outputText rendered="{!if(AND(Quote.Type__c == 'Domestic',Quote.GST__c == True),true,false)}" value="Interest @ 18% will be charged in bills unpaid within one month."/></p>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;"><apex:outputText rendered="{!if(Quote.Type__c == 'Domestic',true,false)}" value="Taxes & Duties:" /> </b><apex:outputText rendered="{!if(Quote.Type__c == 'Domestic',true,false)}" value="Taxes (Government levies) & duties as applicable will charge on the cost of the
+                                                                                                                                                                                                                                                                                                                 machine and packing charges. Taxes & duties shall charge based on those ruling at the time of dispatch
+                                                                                                                                                                                                                                                                                                                 of consignment. "/></p>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><apex:outputText rendered="{!if(AND(Quote.Type__c == 'Domestic',Quote.GST__c == True),true,false)}" value="In Gujarat buyer will be charged, G.S.T. (S.G.S.T. + C.G.S.T) as per Government tax rates. Out side
+                                                                                                                                                                                                        Gujarat buyer will be charged, G.S.T. (I.G.S.T) as per Government tax rates."/></p>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px; font-weight:bold;">You are requested to send LC Draft copy by email for Approval before Open.</p>
+                <ul style="padding:0;font-family: 'Open Sans', sans-serif;font-size:12px;">
+                    <li>The bank details are as under.</li>
+                    <li>Name and Address of our Bank:-</li>
+                    <li>Beneficiary Name – <span style="color:#ff261a;">{!quote.Entity_Name__c}</span></li>
+                    <li>Beneficiary Account – <span style="color:#ff261a;">{!BeneficiaryAccount}</span></li>
+                    <li>Beneficiary Bank - <span style="color:#ff261a;">{!BeneficiaryBank}</span></li>
+                    <li>Swift code – <span style="color:#ff261a;">{!BeneficiarySwiftcode}</span></li>
+                </ul>
+                <ul style="padding:0;font-family: 'Open Sans', sans-serif;font-size:12px;">
+                    <li>Kindly use correspondence bank as following.</li>
+                    <li>Currency: US Dollar</li>
+                    <li>Correspondent Bank Name: <apex:outputText value="{!if(Quote.Bank__c == 'Kotak'," The Bank of New York Mellon, No 1, Wall Street, New York, N.Y.10015","--TEST-- The HDFC bank of")}"/> </li>
+                    <li>Correspondent Bank Swift Code: IRVTUS3NXXX</li>
+                    <li>Correspondent Bank Clearing Code: FED ABA 021000018, CHIPS UID 402260</li>
+                    <li>Nostro Account Number: 8900517794</li>
+                </ul>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">INSPECTION:</b> If you wish you can depute your representative to inspect the machines at our factory prior to dispatch.
+                </p>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">INSTALLATION: </b>The machines will be supplied in semi dismantle condition. If you require, we shall depute our technician to install the machines at your site. The installation charges is US$ 350 per each machine plus to and fro air ticket, visa, hotel accommodation including lodging and boarding, local transportation, medical expenses and other miscellaneous expenses will be arranged and paid by buyer.</p>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">WARRANTY: </b>We would consider product’s limited warranty for any manufacturing defects / workmanship. This warranty
+                    presumes the use of this equipment with necessary case as per standard industrial practice, this warranty dose not cover
+                    rubber parts / hardware / electrical goods and other wear and tear components, damage part cause due to an accident or
+                    used under no standard operation, under the warranty period.</p>
+                
+                <div style="font-family: 'Open Sans', sans-serif; font-size:12px;">
+                    <strong>If we found any manufacturing defect under the warranty period,</strong>
+                    <ul style="font-family: 'Open Sans', sans-serif; font-size:12px;">
+                        <li>In case of replacement of goods any type of Govt. tax, local levies and packing and handling charges / both side (Two way) Transportation will also borne by buyers. The replacement of goods will be affected ex-works basis only.
+                        </li>
+                        <li>In case the parts of the machinery manufactured by other agencies / companies, but used as one of the parts in our machine supplied by us to you, we shall be liable only to the extent such guarantee or warranty prescribed by such agencies / companies and shall be under no obligation to give any independent guarantee or warranty of our own in respect of such part or parts supplied by other agencies / companies to us and used in the manufacturing of the machine supplied to you.</li>
+                        <li>No Service charge will be taken during the warranty period, but buyers have to pay two way expanses like (air
+                            ticket, visa, hotel accommodation including Hotel, Food, Loading, Boarding. Local transportation, medical
+                            expenses, (pocket expenses if any) and other miscellaneous expenses from our ex.Works to the place of
+                            installation.</li>
+                        <li>If buyer makes, causes or allows any alterations or repairs to the machine or parts there of without our consent or if
+                            the defect in any panel or machine is due to negligence or improper handling by the buyer or to any other cause
+                            outside our control then we shall be released from any warranty or guaranty conditions.</li>
+                    </ul>
+                </div>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;">
+                    <b style="color:#499bc9;">ARBITRATION: </b>
+                    All disputes of differences, whatsoever arising between the parties out of or relating to the construction,
+                    meaning and operation or effect of this contract or breach thereof shall be settled by arbitration of Indian council of arbitration and the award made in pursuance thereof shall be binding on the parties.</p>
+                
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;">For, <b>{!Quote.Entity_Name__c}</b></p>
+                
+                <h4 style="color:#000; font-family: 'Open Sans', sans-serif; font-size:13px; margin-top:40px;">AUTHORISED SIGNATURE</h4>   
+                </apex:pageBlock>
+                <apex:pageBlock rendered="{! If(Quote.Type__c=='Domestic' ,true,false) }">
+                    <ul style="font-family: 'Open Sans', sans-serif;font-size:14px;">
+                        <li style="font-size:12px;"><strong><b style="color:#499bc9; font-size:16px;">Price </b></strong>The price quoted in our quotation based on <b>{!Quote.Delivery_Mode__c} {!Quote.Place_of_Supply__c}.Mentioned</b> price&nbsp; is exclusive of all taxes and duties, and it would be charge, based on those ruling at the time of dispatch of material. Our quotation is valid for <strong>15 days </strong>from the date of issue</li>
+                    </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif;font-size:12px;">
+                        <li><strong><b style="color:#499bc9;font-size:16px;">Delivery</b> </strong>The goods shall be delivered within {!Quote.Delievery_Time__c} normal working days on <b>{!Quote.Delivery_Mode__c} {!Quote.Place_of_Supply__c} </b> basis from date of receipt of your firm Technical &amp; Commercial clear order along with complete advance payment (as per payment terms), subject to condition remaining normal. )</li>
+                    </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif; padding-left:30px;font-size:12px;">
+                        <li>If delivery is not made within normal delivery period mentioned by us because of circumstances beyond our control, we will not be responsible for any loss or damage occurs to you because of the late delivery of ordered goods.</li>
+                        <li>In case of Force Major, e. any unforeseen circumstances as act of god war, strikes, floods, government action or any other cause beyond our control, which prevent us to eﬀect the delivery, we may either proportionately prolong the time for the delivery or rescind the contract A buyer claim for damages on that account shall in on case be admissible further, the time of delivery specified in the oﬀer (quotation) is based on conditions prevailing at the time of accepting the order no claim for damages by the buyer on account of delay or failure to deliver within the time stated shall be admissible.</li>
+                        <li>If buyers will not take delivery within intimation of delivery they have to pay demurrage charges in actual basis.</li>
+                    </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif; font-size:12px;">
+                        <li><strong><b style="color:#499bc9;font-size:16px;">Payment Terms</b> </strong>{!Quote.Payment_Term__c} along with the order and balance against Performa invoice including all taxes, packing and forwarding charges. Octroi if any, installation charges etc is to be paid before taking delivery of the machines documents can be negotiated through any recognised bank for payment by you. The bank charges are to be born by you. The advance payment once paid will not be returned in any event. Demand Draft will be in favour of <strong><b style="color:#499bc9;text-transform:uppercase; ">{!Quote.Entity_Name__c} </b></strong>payable at Ahmedabad</li>
+                    </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif; margin-bottom:30px; font-size:12px; list-style:none;">
+                        <li>➢ Interest @ 18% will be charged in bills unpaid within one</li>
+                    </ul>
+                   
+                    <h2 style="font-family: 'Open Sans', sans-serif; margin-top:30px;"></h2>
+                    <ul style="font-family: 'Open Sans', sans-serif;">
+                        <li><b style="color:#499bc9; margin-top:0px;font-size:16px;">Bank</b></li>
+                    </ul>
+                    
+                    <ul style="list-style:none; font-family: 'Open Sans', sans-serif;font-size:12px; padding-left: 15px;">
+                    <li><b style="color:#499bc9;">{!Quote.Entity_Name__c}</b></li>
+                    <li><strong>{!Quote.Bank__c}</strong></li>
+                    <li><strong>Current A/c No: </strong><span style="color:#ff2d21;">{!CurrentAccountNo}</span> <strong>IFSC Code:</strong><span style="color:#ff2d21">{!IFSCCode}</span></li>
+                    <li><strong>Swift Code: </strong>{!BeneficiarySwiftcode}</li>
+                    <li><strong>Bank Address: </strong>{!BeneficiaryBank}</li>
+                   </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif;font-size:12px;">
+                        <li><strong><b style="color:#499bc9;font-size:16px;">Taxes &amp; Duties</b> </strong>Taxes (Government levies) &amp; duties as applicable will charge on the cost of the machine and packing charges. Taxes &amp; duties shall charge based on those ruling at the time of dispatch of consignment.</li>
+                    </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif;font-size:12px;">
+                        <li>In Gujarat buyer will be charged, S.T. (S.G.S.T. + C.G.S.T) as per Government tax rates. Out side Gujarat buyer will be charged, G.S.T. (I.G.S.T) as per Government tax rates.</li>
+                    </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif;font-size:12px;">
+                        <li><strong><b style="color:#499bc9; font-size:16px;">Packing &amp; Forwarding </b></strong>Packing charges, handling &amp; forwarding <strong>charges will be extra at </strong></li>
+                      </ul>
+                     <ul style="font-family: 'Open Sans', sans-serif;font-size:12px;">
+                         <li><strong><b style="color:#499bc9; font-size:16px;">Insurance </b></strong>Transit insurance to be covered by buyer in any condition. It is preferable to get the machine insured in transit, however we shall help you by intimating the transport</li>
+                    </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif;font-size:12px;">
+                        <li><strong><b style="color:#499bc9;font-size:16px;">Trial</b> </strong>We can give trial of your ordered goods / Consignment at our works provided suﬃcient material, which furnished at your</li>
+                    </ul>  
+                    <ul style="font-family: 'Open Sans', sans-serif;font-size:12px;">
+                        <li><strong><b style="color:#499bc9;font-size:16px;">Erection &amp; Commissioning</b> </strong>We  can  done  installation  of  the  machine  in  your  factory  at  extra Cost, the erection / Commissioning cost will provided against request of buyer, buyer have to pay To &amp; From from our ex. Works to the place of installation including local conveyance, expanses and accommodation charges on actual basis. These all payments will be payable in Advance by the buyer after our estimate.</li>
+                    </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif;font-size:12px;">
+                        <li><strong><b style="color:#499bc9;font-size:16px;">Warranty</b> </strong>We would consider product&rsquo;s limited <b>{!Quote.Warranty__c}</b> warranty for any <strong>manufacturing defects. </strong>This warranty presumes the use of this equipment with necessary case as per standard industrial practice a dose not cover rubber and other components which are subject to wear and</li>
+                    </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif;font-size:12px; padding-left:15px;">
+                        <li>If we found any manufacturing defect under the warranty period,</li>
+                        <li>In case of replacement of goods any type of Govt. tax, local levies and packing&nbsp; and&nbsp; handling&nbsp; charges / both side (Two way) Transportation will also borne by</li>
+                        <li>We would not covered Rubber and Electrical / Electronics parts (ex. motors, gear box, starter,&nbsp; electrical system, variable speed belts, conveyor belt, ink rollers, bearing, slitting knives and cutting blades) damage part cause due to accident and under no standard use, under the warranty</li>
+                        <li>In case of parts of the machinery manufactured by other agencies / companies, but used as one of &nbsp;the parts in our machine supplied by us to you, we shall be liable only to the extent such guarantee or warranty prescribed by such agencies / companies and shall be under no obligation to give any independent guarantee or warranty of our own in respect of such part or parts supplied by other agencies / companies to us and used in the manufacturing of the machine supplied to</li>
+                        <li>Service charge will be taken during the warranty Also to &amp; fro from our ex.Works to the place of installation including local conveyance / expanses and accommodation (Hotel, Fooding, Lodging, Boarding , etc.) charges will be charged extra at actual. Buyer has to pay pocket expenses to our technician as per our company rules. Buyers have to pay this charge in advance, which will arrange actual basis against invoicing after service.</li>
+                        <li>If buyer makes, causes or allows any alterations or repairs to the machine or parts there of without our consent or if the defect in any panel or machine is due to negligence or improper handling by the buyer or to any other cause outside our control then we shall be released from any warranty or guaranty conditions.</li>
+                    </ul>
+                    <ul style="font-family: 'Open Sans', sans-serif;font-size:14px;padding-left:15px;">
+                        <li><strong><b style="color:#499bc9;font-size:16px;">Jurisdiction </b></strong>If any dispute, must be subject to <strong>{!Quote.Jurisdiction_City__c} Jurisdiction </strong>for any</li>
+                    </ul>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size:12px; margin-top:20px;">Sincerely yours,</p>
+                   
+                     <p style="font-family: 'Open Sans', sans-serif; font-weight:bold; margin-top:50px; margin-bottom:0;font-size: 12px;">Mitesh Patel</p>
+                    <p style="font-family: 'Open Sans', sans-serif; font-weight:bold; margin:0;font-size: 12px;padding:0; margin:0;">Director</p>
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 12px;padding:0; margin:0;"><a href="javascript:void(0);">{!if(Quote.Type__c == 'Domestic',"sales@ntex.co.in","export@ntex.co.in")}</a> ||{!if(Quote.Type__c == 'Domestic'," +91 94260 88820","+91 80008 55577")}</p>
+                    <h1 style="font-family: 'Open Sans', sans-serif; margin:15px 0 0 0; font-size:14px;color:#367da2;"><apex:outputField value="{!Quote.Entity_Name__c}"/></h1>
+                    <h4 style="font-family: 'Open Sans', sans-serif;margin:0; font-size:12px; font-weight:normal; margin-bottom:10px;">(A Div. Of N-TEX Group Inc.)</h4>
+                </apex:pageBlock>
+                <!--Seventh Slide-->
+                
+                <div style="page-break-after:always;"/>
+ <h3 style="color:#ae1916; text-align:center;font-family: 'Open Sans', sans-serif; font-size:17px; width:100%; margin:0 auto;">Annexure E</h3>                
+                <h2 style="color:#ae1916; text-align:center; font-family: 'Open Sans', sans-serif;width: 60%;
+                           margin: 0 auto; font-size:17px;">Acceptance of Commercial Terms &amp; Conditions</h2>
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;">Purchaser / Party Who is mutually agreed for the Purchase of Machine after studying and understanding of all
+                    the above Terms and Condition mentioned in above shown reference number.</p>
+                
+                <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;">Purchaser / Party has been acceptance in full of our Purchase order in Sound mind and conscious condition.
+                    They have given acceptance by Stamp and their Sign in this Annexure.</p>
+                
+                <table border="0" cellpadding="8" style="font-family: 'Open Sans', sans-serif; width:100%; text-align:left; font-size: 16px;border-collapse:collapse; font-family: 'Open Sans', sans-serif; margin-top:90px;">
+                    
+                    <tr>
+                        <td style="padding:0px; margin:0; padding-left:8px;font-size: 13px; width:50%;">Sincerely yours,</td>
+                        <td style="padding:0px; margin:0; padding-left:8px;font-size: 13px;">Buyer’s</td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="width:50%; color:#367db7; padding-top:40px; margin:0; text-align:left; font-family: 'Open Sans', sans-serif; font-weight:bold; font-size:15px;">{!Quote.Entity_Name__c}</td>
+                        <td style="color:#367db7; padding-top:40px; margin:0; text-align:left; font-family: 'Open Sans', sans-serif; font-weight:bold; font-size:15px;">Representative Signature with Company Seal</td>
+                    </tr>
+                </table>
+            </body>
+        </apex:pageBlock>
+    </html>
+</apex:page>

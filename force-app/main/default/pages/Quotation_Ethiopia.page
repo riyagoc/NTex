@@ -1,0 +1,123 @@
+<apex:page readOnly="advanced_pdf"
+                                   applyHtmlTag="false"
+                                   applyBodyTag="false"  
+                                   standardStylesheets="false"
+                                   sidebar="false"    
+                                   showHeader="false"    
+                                   cache="false"    
+                                   renderas="advanced_pdf"
+                                   docType="html-5.0"
+                                   standardController="Quote"
+                                   extensions="QuotationController">
+<body>
+<div>
+                                  
+    <b>Ref:</b>  20200411 - NMPL - JS - Q0001-0<span style="padding-left:480px;"> </span>
+    Saturday, 11 April 2020 <span style="padding-left:480px;"></span>
+    To,<span style="padding-left:2px;"></span>
+    Mr. Muhammedamin Idris <span style="padding-left:.9px;"></span>
+    Mullege PLC  <span style="padding-left:.9px;"></span>
+    TIN No:<span style="padding-left:.9px;"></span>
+    Nefas Silk Lafto, Sub-City, Addis Ababa, <span style="padding-left:.9px;"></span>
+    Ethiopia <span style="padding-left:30px;"></span><br/>
+    M &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +91 98300 85384 <span style="padding-left:.9px;"></span>
+    3abumahi@gmail.com <span style="padding-left:.9px;"></span>
+    PERFORMA INVOICE
+   <table >
+    <tr>
+            <td>Sl.No.</td>
+            <td>Description</td>
+            <td>Qty. </td>
+            <td>Ex. Works
+Price / Each</td>
+            <td>Ex. Works
+Price / Total</td>
+    </tr>
+     <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+    </tr>
+     <tr>
+         <td></td>
+        <td></td>
+    </tr>
+    
+   
+   </table>
+   Note: Optional accessories are not compulsory with standard machine, but it will help to increase machine stability and performance.
+* Required control panel.
+** The prices given above are our current standard price. However, prices ruling at the time of dispatch shall be charged.
+*** Due to our ongoing commitment to serve you better technology, we reserve the rights for any technical alteration in our machine and
+motioned specification without any prior notice.
+_______________________________________________________________________________
+PACKING MARKED : MULLEGE PLC.
+SHIPMENT : WITHIN 180 DAYS IN 1 X 20 FT CONTAINERS
+COUNTRY OF ORIGIN : INDIA
+PORT OF LOADING : ANY INDIAN PORT
+PORT OF DISCHARGE : DJIBOUTI PORT, DJIBOUTI
+FINAL DESTINATION : ETHIOPIA
+
+Note: This is computer generated transmission hence no signature required for Communication.
+Regd. Office And Works:
+4, Panchal Sahakari Udhyog Nagar, Dudheshwar Road, Ahmadabad – 380 004, Gujarat (INDIA)
+T: +91 79 2562 5772 || Fax: +91 79 2562 1048 || M: +91 80008 55577
+Email: export@ntex.co.in || www.ntex.co.in 
+</div>   
+    </body>   
+</apex:page>
