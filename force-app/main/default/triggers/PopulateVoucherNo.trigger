@@ -1,5 +1,6 @@
 trigger PopulateVoucherNo on Order (after insert,before insert) {
     
+    /* //Not In use
     if(trigger.isBefore && trigger.isInsert)
     {
         orderTriggerHandler.beforeInsertMethod(trigger.new);
@@ -20,5 +21,5 @@ trigger PopulateVoucherNo on Order (after insert,before insert) {
      {
          ol.Voucher_No__c =  VocherDetail.Name + '/' + ol.OrderNumber + '/' + VocherDetail.Financial_Year__c;
      }
-     update ordList;
+     update ordList;*/
 }

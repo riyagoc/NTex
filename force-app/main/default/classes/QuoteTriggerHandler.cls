@@ -1,4 +1,5 @@
 public with sharing class QuoteTriggerHandler { 
+    
     public static void updatEntityField(List<quote> newQuoteList)
     {
         Count__c ct = Count__c.getOrgDefaults();

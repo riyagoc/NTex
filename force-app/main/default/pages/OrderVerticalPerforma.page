@@ -1,0 +1,521 @@
+<apex:page readOnly="advanced_pdf" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" sidebar="false" showHeader="false"    
+            cache="false" renderAs="advanced_pdf" docType="html-5.0" standardController="Order" extensions="OrderVerticalController" >
+<!-- extensions="OrderVerticalController" action="{!controllermethod}" -->
+<html>
+<head>
+
+    <style type="text/css" media="print">
+        @page {
+        margin-top: 80px;
+        margin-bottom: 170px;
+        @top-center {
+        content: element(header);
+        }
+        @bottom-center {
+        content: element(footer);
+        }
+        @bottom-left {
+        content: element(pagen);
+        }
+        }
+        div.header {
+        padding: 2px;
+        position: running(header);
+        }
+        div.footer {
+        position: running(footer);
+        }
+        .pagenumber:before {
+        content: counter(page);
+        }
+        .pagecount:before {
+        content: counter(pages);
+        }
+        p, a, h1, h2, h3, h4, h5, h6, span{font-family: 'Open Sans', sans-serif;}
+        
+    </style>
+ <a href="https://fonts.googleapis.com/css?family=Open+Sans&amp;display=swap" rel="stylesheet"></a>
+</head>
+<apex:pageBlock >
+    <body>
+        <div class="footer" style="margin-bottom: 80px;">
+            <table style="border-collapse: collapse;width:100%; ">
+                <tr>
+                    <td style=" color:#000; font-family: 'Open Sans', sans-serif; font-size:10px; padding: 0; margin-bottom: 10px; padding-top:82px; ">
+                        <b>Note:</b> This is computer generated transmission hence no signature required for Communication.
+                    </td>
+                    <td style="text-align:center; font-size:10px; font-family: 'Open Sans', sans-serif;"><apex:image url="{!$Resource.TuvIcon}" width="55" height="50"/><br/>
+                    <b>An ISO 9001:2008 Certified Company</b><br/></td> </tr> 
+            <tr><td colspan="2" style="border-top: 1px solid #000;"> <small style="color:#367da2; font-family: 'Open Sans', sans-serif; font-size:11px; font-weight:bold; padding-top:15px;">Regd. Office &amp; Works:</small></td></tr>
+                <tr><td colspan="2" style="text-align:center; font-family: 'Open Sans', sans-serif; font-size:10px;"><span style="color:#000; font-family: 'Open Sans', sans-serif; font-size:10px; text-align:center; margin:0;">4, Panchal Sahakari Udhyog Nagar, Dudheshwar Road, Ahmadabad – 380 004, Gujarat (INDIA)</span></td></tr>
+                    <tr><td colspan="2" style="text-align:center; font-family: 'Open Sans', sans-serif; font-size:10px;"><b style="color:#578726;">T: </b> +91 79 2562 5772 || <b style="color:#578726;">Fax:</b> +91 79 2562 1048 || M: {!if(Order.RecordType.Name == 'Domestic'," +91 94260 88820","+91 80008 55577")} </td></tr>
+                    <tr><td colspan="2" style="text-align:center; font-family: 'Open Sans', sans-serif; font-size:10px;"><b style="color:#578726;">Email:</b> <a href="javascript:void(0);">{!if(Order.RecordType.Name == 'Domestic',"sales@ntex.co.in","export@ntex.co.in")}</a> || <a href="javascript:void(0);">www.ntex.co.in</a></td></tr>
+            <tr><td colspan="2" style="text-align:right; font-family: 'Open Sans', sans-serif; font-size:10px;"><span style="text:align:right"><b> Page <span class="pagenumber"/> of <span class="pagecount"/></b></span></td></tr>
+            </table>
+        </div>
+        <div style="margin:0 auto; width:100%; font-size: 12px;">
+            <div class="header">
+                <table border="0" style="width:100%; font-size: 12px; border-collapse: collapse; font-family: 'Open Sans', sans-serif;">
+                    <td style="margin-top: 100px;font-family: 'Open Sans', sans-serif;">
+                        <!-- <b>Ref:</b> {!order.Order_Number__c} -->
+                    </td>
+                    <td style="margin-top: 100px;font-family: 'Open Sans', sans-serif; text-align: right;">
+                        <apex:image url="{!$Resource.NTexLogo2}" width="180" height="30"/><br/>
+                        <p style="font-family: 'Open Sans', sans-serif; font-size:10px; padding:0; margin:0; font-weight:bold;">SINCE 1972</p>
+                        <!-- <span style="margin-top:8px; display: inline-block;"><apex:outputText value="{0, date,EEEE d MMMM','  yyyy}"><apex:param value="{!NOW()}" /></apex:outputText></span> -->
+                    </td>
+                </table>
+            </div>
+        </div>
+    </body>
+    
+
+        <!-- Sales order/performa invoice page block start --> 
+        <h3 style="padding:0; margin:0;text-align:center; color:#347ea3;font-family: 'Open Sans', sans-serif;font-size:18px;">Sales Order/Pro-Forma Invoice</h3>
+        <table border="" cellpadding="0" cellspacing="0" style="display:table;  width:100%; font-family: 'Open Sans', sans-serif; margin-top:0px; border-collapse:collapse; font-size:10px; text-align:left;">
+            <tr>
+                <td  style="width:49%;vertical-align:top;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%; font-family: 'Open Sans', sans-serif; margin-top:0px; border-collapse:collapse; font-size:12px;">
+                        <tr style="">
+                            <td style="width:40%;padding-left:2px;border-left:1px solid #C0C0C0; color: #000;border-top:1px solid #C0C0C0;height:22px ">Buyer's Details</td>
+                            <td style="padding-left:2px;border-top:1px solid #C0C0C0;"></td>
+                        </tr>
+                        <tr style="">
+                            <!-- <td style="padding-left:2px;border-left:1px solid #C0C0C0;background:#5b9bd5; color: #fff;border-top:0.5px solid #C0C0C0; border-bottom:0.5px solid #fff;height: 27px;">Company Name:</td> -->
+                            <td style="width:40%;font-weight: bold;padding-left:2px;border-left:1px solid #C0C0C0;font-size:13px;height:24px">{!order.quote.Account.Name}</td>
+                        </tr>
+                        <tr>
+                            <!-- <td style="padding-left:2px;border-left:1px solid #C0C0C0;background:#5b9bd5; color: #fff;border-bottom:0.5px solid #fff;">Buyer's GSTIN:</td> -->
+                            <td style="width:45%;border-left:1px solid #C0C0C0;padding-left:2px;">{!order.quote.Billing_Address__r.Street__c}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:2px;border-left:1px solid #C0C0C0; color: #000;">&nbsp;</td>
+                            <!-- <td style="padding-left:2px;width:75%">&nbsp;</td> -->
+                        </tr>
+                        
+                        <tr>
+                            <td style="font-weight: bold;padding-left:2px;border-left:1px solid #C0C0C0; color: #000;height:22px">City:</td>
+                            <td style="padding-left:2px; "> {!order.quote.Billing_Address__r.city__c}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;padding-left:2px;border-left:1px solid #C0C0C0; color: #000;height:22px">Country:</td>
+                            <td style="padding-left:2px;">{!order.quote.Billing_Address__r.Country__c}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;padding-left:2px;border-left:1px solid #C0C0C0; color: #000;height:22px">Pin/Zip Code:</td>
+                            <td style="padding-left:2px;">{!order.quote.Billing_Address__r.Zip_Postal_Code__c}</td>
+
+                            <!-- <td style="padding-left:2px;border-left:1px solid #C0C0C0; color: #000;">&nbsp;</td> -->
+                            <!-- <td style="padding-left:2px;width:75%">&nbsp;</td> -->
+                        </tr>
+                        
+                        <tr>
+                            <td style="font-weight: bold;padding-left:2px;border-left:1px solid #C0C0C0;color: #000;height:22px">Mobile No:</td>
+                            <td style="padding-left:2px;"> {!order.quote.Contact.MobilePhone}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;padding-left:2px;border-left:1px solid #C0C0C0;color: #000;height:22px">Email:</td>
+                            <td style="padding-left:2px;">{!order.quote.Contact.Email}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;padding-left:2px;border-left:1px solid #C0C0C0;color: #000;height:27px">Buyer's Tax Code:</td>
+                            <td style="padding-left:2px;">{!order.quote.Account.Buyer_Country_TAX_Code__c}</td>
+                        </tr> 
+                    </table>
+                </td>
+                            
+                            
+                <td  style=" vertical-align:top;">
+                    <table cellpadding="0" cellspacing="0" style="width:100%; font-family: 'Open Sans', sans-serif; margin-top:0px; border-collapse:collapse; font-size:12px;">
+                        <tr>
+                            <td style="font-weight: bold;padding:0 2px; color: #000;border-top:1px solid #C0C0C0;height:22px">Offer No.</td>
+                            <td style="border-right: 1px solid #C0C0C0;border-top:1px solid #C0C0C0;padding:0 2px;">{!Order.Order_Number_Hidden__c}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;padding:0 2px; color: #000;height:22px">Date</td>
+                            <td style="border-right: 1px solid #C0C0C0;padding:0 2px;">
+                                <span style="color: #000;">
+                                    <apex:outputText value="{0, date,d MMMM','yyyy}">
+                                        <apex:param value="{!order.Order_Date__c}" />
+                                    </apex:outputText>        
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;padding:0 2px; color: #000;height:22px">Delivery Terms</td>
+                            <td style="border-right: 1px solid #C0C0C0;padding:0 2px;"><span style="color: #000;">{!order.Delivery_Mode__c}</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td style=" font-weight: bold;color: #000;padding:0 2px;height:22px">Shipment Type</td>
+                            <td style="border-right:1px solid #C0C0C0;padding:0 2px;">By {!order.Delivery_Type__c}</td>
+                        </tr>
+                        <tr>
+                            <td style=" font-weight: bold;color: #000;padding:0 2px;height:22px">Port of Loading</td>
+                            <td style="border-right:1px solid #C0C0C0;padding:0 2px;">{!order.Port_Of_Loading__c}</td>
+
+                            <!-- <td colspan="2" style=" color: #000;border-right:1px solid #C0C0C0;padding:0 2px;">&nbsp;</td> -->
+                        </tr>
+                        <tr>
+                        
+                            <td style="width:40%; font-weight: bold;color: #000;padding:0 2px;height:22px">Port of Discharge</td>
+                            <td style="border-right:1px solid #C0C0C0;padding:0 2px;">{!order.Port_Of_Discharge__c}</td>
+                            
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;padding:0 2px;color: #000;height:22px">Payment Terms</td>
+                            <td style="border-right: 1px solid #C0C0C0;padding:0 2px;height:27px;"><span style="color: #000;">{!order.Payment_Term__c} </span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style=" color: #000;border-right:1px solid #C0C0C0;padding:0 2px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style=" color: #000;border-right:1px solid #C0C0C0;padding:0 2px;height:22px">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style=" color: #000;border-right:1px solid #C0C0C0;padding:0 2px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style=" color: #000;border-right:1px solid #C0C0C0;padding:0 2px;">&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            </table>
+        <apex:variable value="{!1}" var="count" />
+        <table border="size:A4 portrait;" cellpadding="3" style="width:100%; text-align:center; font-size: 12px;border-collapse:collapse;font-family: 'Open Sans', sans-serif;margin-top:0px;">
+
+        <tr>
+            <td style="font-weight:bold; border-right : 0.5px solid #C0C0C0;border-bottom : 0.5px solid #C0C0C0; color:#6696c3;width:4%; ">Sl.No.</td>
+            <td style="font-weight:bold; color:#6696c3;width:50%;">Description</td>
+            <td style="font-weight:bold; color:#6696c3;width:5%;">HSN/SAC Code</td>
+            <td colspan="2" style="font-weight:bold; color:#6696c3;width:10%;">Qty.</td>
+            <td style="font-weight:bold; color:#6696c3;width:15%;">Ex. Works <br/>Price / Each</td>
+            <td style="font-weight:bold; color:#6696c3;width:15%; border-right: 1px solid #C0C0C0 ">Ex. Works <br/>Price / Total</td>
+        </tr>
+        <apex:repeat value="{!order.OrderItems}" var="OrderItem">
+        <tr style="vertical-align:top;">
+            <td style="color:#62b1df;">{!count}<apex:variable value="{!count+1}" var="count" /> </td>
+            <td style="text-align:left;vertical-align:top;"><b><apex:outputfield value="{!OrderItem.Product2.Name}"></apex:outputfield></b><br/><span>
+
+                    <div style = "line-height:0.3">
+                <apex:outputfield value="{!OrderItem.Product2.Short_Description__c}"></apex:outputfield>
+                
+                    </div>
+                    </span>
+            <!-- <ul style="list-style:none; padding:0; margin:0;">
+                <li style="font-weight:bold;">Speed up to: <span style="color:#ff261a;">LEFT</span></li>
+                <li style="font-weight:bold;">Model: <span style="color:#ff261a;">LEFT</span></li> 
+                <li style="font-weight:bold;">HSN Code:<span style="color:#ff261a;">{!OrderItem.HSN_Code__c}</span></li>
+                </ul> -->
+            </td>
+            <td tyle="text-align:right;">{!OrderItem.HSN_Code__c}</td>
+            <td style="text-align:right;"><apex:outputfield value="{!OrderItem.Quantity}"></apex:outputfield></td>
+            <td style="text-align:left;">{!OrderItem.Product2.UOM__c}</td>
+            <td style="text-align:right; ">
+                <apex:outputText value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00}">
+                    <apex:param value="{!OrderItem.UnitPrice}" />
+                </apex:outputText>
+            </td>
+            <td style="text-align:right; border-right:1px solid #C0C0C0">
+                <apex:outputText value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00}">
+                <apex:param value="{!OrderItem.Quntity_Price__c}" />
+            </apex:outputText>
+            </td>
+        </tr>
+        </apex:repeat>
+
+        <tr>
+            <td colspan="6" style="font-weight; text-align:right">Total Ex. Works Price in {!order.CurrencyIsoCode}
+             <!-- {!if(Order.RecordType.Name == 'Domestic',"INR","U.S. Dollar")}  -->
+            </td>
+            <td style="text-align:right;border-right:1px solid #C0C0C0">
+                <apex:outputtext value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00}">
+                    <apex:param value="{!Order.Total_Quntity_Price__c}" />
+                </apex:outputtext>
+            </td>
+        </tr>
+        <apex:outputText rendered="{!if(OR(NOT(ISBLANK(Order.Discount_Lump_sum__c)),NOT(ISBLANK(Order.Discount_Lump_sum_Amt__c))),true,false)}">
+            <tr>
+                <apex:outputText rendered="{!NOT(ISBLANK(Order.Discount_Lump_sum__c))}"/>
+                    <td colspan="6" style="text-align:right;font-weight:bold;">Special Discount&nbsp;{!Order.Discount_Lump_sum__c}%
+                        
+                    </td>
+                    <td style="text-align:right;border-right:1px solid #C0C0C0;font-weight:bold;">
+                    <apex:outputtext rendered="{!NOT(ISBLANK(Order.Discount_Lump_sum__c))}" value=" {!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00} ">
+                        
+                        <apex:param value="{!order.Discount_Lump_Sum_Per_Amt_Qty__c}" />
+                    </apex:outputtext>
+                    <apex:outputtext rendered="{!NOT(ISBLANK(Order.Discount_Lump_sum_Amt__c))}" value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00} ">
+                        <apex:param value="{!order.Discount_Lump_sum_Amt__c}" />
+
+                    </apex:outputtext>
+                    </td>
+            </tr>
+        </apex:outputText>
+        <apex:outputText rendered ="{!Order.Packing__c == True}">
+            <tr>
+                <td colspan="6" style="text-align:right"><apex:outputField rendered="{!if(Order.Packing__c == True,true,false)}" value=" {!Order.Packing_Type__c} "/></td>
+                <td style="text-align:right;border-right:1px solid #C0C0C0">
+                    <apex:outputtext rendered="{!if(Order.Packing__c == True,true,false)}" value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00} ">
+                        <apex:param value="{!Order.Packing_Charges__c}" />
+                    </apex:outputtext>
+                </td>
+            </tr>
+        </apex:outputText>
+
+        <apex:outputText rendered="{!if(AND(Order.FOB__c == True,Order.RecordType.Name=='Export'),true,false)}">
+            <tr>
+                <td colspan="6" style=" text-align:right">
+                    Local Freight - Ex. Factory to Port of Loading
+                    <!-- <apex:outputText value="{!if(Order.FOB__c == True,""," ")}"/>
+                    Shipping Cost from Ex. Factory to &nbsp;
+                    <apex:outputfield value=" {!Order.Delivery_Type__c}"></apex:outputfield> 
+                    <span style= "font-weight: bold">
+                        <apex:outputfield value=" {!Order.Port_Of_Loading__c}"></apex:outputfield>
+                    </span> -->
+                </td>
+                <td style="font-weight; text-align:right;border-right:1px solid #C0C0C0">
+                    <apex:outputtext rendered="{!if(Order.FOB__c == True,true,false)}" value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00}">
+                        <apex:param value="{!Order.FOB_Charges__c}" />
+                    </apex:outputtext>
+                </td>
+            </tr>
+        </apex:outputText>
+
+        <apex:outputText rendered="{!if(AND(Order.FOB__c == True,Order.RecordType.Name='Export'),true,false)}">
+            <tr>
+                <td colspan="6" style="font-weight:bold; text-align:right;color:#ae1916;">
+                    Total FOB Price 
+                    <!-- <apex:outputText value="{!if(AND(Order.FOB__c == True,Order.RecordType.Name == 'Domestic'),"Total FOB Value in INR "," ")}"/>
+                    <apex:outputText value="{!if(AND(Order.FOB__c == True,Order.RecordType.Name != 'Domestic'),"Total FOB Value in U.S. Dollar "," ")}"/> -->
+                </td>
+                <td style="font-weight:bold; color:#ae1916; text-align:right ;border-right:1px solid #C0C0C0 ">
+                    <apex:outputtext rendered="{!if(Order.FOB__c == True,true,false)}" value=" {!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00}">
+                        <apex:param value="{!Order.Total_FOB__c}" />
+                    </apex:outputtext>
+                </td>
+            </tr>
+        </apex:outputText>
+
+
+        <tr style="display:{!if(Order.Transportation_Charges__c == True,'','none')}">
+            <td colspan="6" style="font-weight; text-align:right">
+                Freight - {!order.Delivery_Type__c}
+                <!-- <apex:outputText value="{!if(order.Transportation_Charges__c == True,"","")}"/>
+                <apex:outputfield value=" {!Order.Delivery_Type__c}"/> Freight from 
+                <span style= "font-weight: bold"><apex:outputfield value=" {!Order.Port_Of_Loading__c}"/></span>&nbsp;<apex:outputfield value=" {!Order.Delivery_Type__c}"/> Port 
+                to <span style= "font-weight: bold"><apex:outputfield value=" {!Order.Port_Of_Discharge__c}"/></span>&nbsp;<apex:outputfield value=" {!Order.Delivery_Type__c}"/> port -->
+            </td>
+            <td style="text-align:right;border-right:1px solid #C0C0C0">
+                <apex:outputtext rendered="{!if(Order.Transportation_Charges__c == True,true,false)}" value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00} ">
+                    <apex:param value="{!Order.Transport_Charges__c}" />
+                </apex:outputtext>
+            
+            </td>
+        </tr>
+        <tr style="display:{!if(AND(Order.Transportation_Charges__c == True,Order.RecordType.Name='Export'),'','none')}">
+            <td colspan="6" style="font-weight:bold; text-align:right;color:#ae1916;border-right:1px solid #C0C0C0">
+                Total CNF Price 
+                <!-- <apex:outputText value="{!if(AND(Order.Transportation_Charges__c == True,Order.RecordType.Name == 'Domestic'),"Total Price C & F By Road in INR up to "," ")}"/>
+                <apex:outputText value="{!if(AND(Order.Transportation_Charges__c == True,Order.RecordType.Name != 'Domestic'),"Total Price C & F By Road in U.S. Dollar up to "," ")}"/>
+                <apex:outputText value="{!(Order.Transport_To__c)}"/> -->
+            </td>
+            <td style="text-align:right ;border-right:1px solid #C0C0C0;font-weight:bold; color:#ae1916;">
+                <apex:outputtext rendered="{!if(Order.Transportation_Charges__c == True,true,false)}" value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00}">
+                    <apex:param value="{!Order.Total_C_K__c}" />
+                </apex:outputtext>
+            </td>
+        </tr>
+
+
+        <apex:outputText rendered="{!if(OR(NOT(ISBLANK(Order.Insurance1__c)),NOT(ISBLANK(Order.Final_Value__c))),true,false)}">
+        <tr>
+            <td colspan="6" style="font-weight; text-align:right">
+                <apex:outputText value="{!if(Order.Insurance__c == True,"Insurance "," ")}"/>
+                <apex:outputField rendered="{!if(Order.Insurance__c == True,true,false)}" value="{!Order.Insurance1__c}"/>
+                
+            </td>
+            <td style="font-weight; text-align:right;border-right:1px solid #C0C0C0">
+                <apex:outputtext rendered="{!if(AND(Order.Insurance__c == True,NOT(ISBLANK(Order.Final_Value__c))),true,false)}" value=" {!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00} ">
+                <apex:param value="{!Order.Final_Value__c}" />
+                </apex:outputtext>
+                <apex:outputText rendered="{!NOT(ISBLANK(Order.Insurance1__c))}" value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00}">
+                <apex:param value="{!Order.Insurance_Percentage_Amt__c}" />
+                    
+                </apex:outputText>
+            </td>
+        </tr>
+        </apex:outputText>
+        <tr style="display:{!if(AND(Order.Insurance__c == True,Order.RecordType.Name='Export'),'','none')}">
+        <td colspan="6" style="font-weight:bold; color:#ae1916; text-align:right">
+            Total CIF Price 
+            <!-- <apex:outputText value="{!if(Order.Insurance__c == True,"Total CIF Value"," ")}"/> -->
+        </td>
+        <td style="font-weight; text-align:right;border-right:1px solid #C0C0C0;">
+            
+            <apex:outputtext rendered="{!if(Order.Insurance__c == True,true,false)}" value=" {!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00} ">
+            <apex:param value="{!Order.Total_CIF__c}" />
+            </apex:outputtext>
+        </td>
+        </tr>
+
+
+        <tr>
+            <td colspan="7" style="font-weight:bold; color:#ae1916;text-align:right; border-right:1px solid #C0C0C0;border-bottom:1px solid #C0C0C0">
+                <!-- {!if(Order.RecordType.Name == 'Domestic',"INR ","U.S. Dollar ")}{!amtInWords} -->
+                <b>Total Price in Words: {!order.CurrencyIsoCode} 
+                    <apex:outputText rendered="{!if(AND(Order.FOB__c == true,Order.Transportation_Charges__c!=true,Order.Insurance__c != true),true,false)}" value="{!amtInWordsForFOB}"/>
+                    <apex:outputText rendered="{!if(AND(Order.FOB__c == true,Order.Transportation_Charges__c=true,Order.Insurance__c != true),true,false)}" value=" {!AmtInWordsForCK}"/>
+                    <apex:outputText rendered="{!if(AND(Order.FOB__c == true,Order.Transportation_Charges__c==true,Order.Insurance__c == true),true,false)}" value="{!AmtInWordsForCIF}" />
+
+                Only
+                </b>
+            </td>
+        </tr>
+
+        <!-- Advance payment  start -->
+        <tr>
+            <!-- <td  style=" color: #fff;border-right: 0.5px solid #C0C0C0;border-left: 0.5px solid #C0C0C0;padding-left:2px;text-align:center">&nbsp;</td> -->
+            <td colspan="2" style=" color: #6696c3;border-right: 1px solid #C0C0C0;border-left: 1px solid #C0C0C0;padding-left:2px;text-align:center">Advance Payment</td>
+            <td colspan="2" style=" color: #6696c3;border-right: 1px solid #C0C0C0;border-left: 1px solid #C0C0C0;padding-left:2px;text-align:center">Date</td>
+            <td  colspan="2" style=" color: #6696c3;border-right: 1px solid #C0C0C0;border-left:1px solid #C0C0C0;padding-left:2px;text-align:center">Payment Mode</td>
+            <td style="color: #6696c3;border-right: 1px solid #C0C0C0;border-left: 1px solid #C0C0C0;padding-left:2px;text-align:center">Amount</td>
+        </tr>            
+        <apex:variable value="{!1}" var="advPayCount"/> 
+        <apex:repeat rendered="{!advPaymentRecords.size>0}" value="{!advPaymentRecords}" var="advPayRcd">
+            
+            <tr style="text-align: center; color: #000;">
+                <!-- <td  style=" color: #fff;border-right: 0.5px solid #C0C0C0;border-left: 0.5px solid #C0C0C0;padding-left:2px;text-align:left">&nbsp;</td> -->
+                
+                <td  colspan="2" style="border-right: 1px solid #C0C0C0;border-left:1px solid #C0C0C0;border-bottom:1px solid #C0C0C0;text-align:center">{!advPayCount}</td>
+                <td colspan="2"  style="border-right: 1px solid #C0C0C0;border-left: 1px solid #C0C0C0;border-bottom:1px solid #C0C0C0;text-align:center">
+                    <apex:outputText value="{0, date,d MMMM','yyyy}"> <apex:param value="{!advPayRcd.Advance_Payment_Date__c}" /> </apex:outputText> 
+                </td>
+                <td colspan="2" style="border-right: 1px solid #C0C0C0;border-bottom:1px solid #C0C0C0;border-left: 1px solid #C0C0C0;text-align:center">{!advPayRcd.Payment_Mode__c}</td>
+                <apex:variable value="{!advPayCount+1}" var="advPayCount" />
+                <td style="border-right: 1px solid #C0C0C0;border-left: 1px solid #C0C0C0;border-bottom:1px solid #C0C0C0;text-align:right">
+                    <apex:outputText value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00}" rendered="{!if(order.quote.RecordType.Name = 'Export',true,false)}">
+                        <apex:param value="{!advPayRcd.Advance_Amount__c }" />
+                    </apex:outputText>
+                    <apex:outputText value="INR{0, number, ###,###,###,##0.00}" rendered="{!if(order.quote.RecordType.Name = 'Domestic',true,false)}">
+                        <apex:param value="{!advPayRcd.Advance_Amount__c }"/>
+                    </apex:outputText>
+                </td>
+            </tr>                     
+        </apex:repeat> 
+        <!-- Advance Payment End -->
+            <tr >
+                <td colspan="6" style="font-weight:bold;color:#000; border-bottom:1px solid #C0C0C0; text-align:right">Balance Due
+
+                </td>
+                <td style="font-weight:bold; text-align:right;border-right:1px solid #C0C0C0;border-bottom:1px solid #C0C0C0">
+                    <apex:outputText value="{!order.CurrencyIsoCode} {0, number, ###,###,###,##0.00}" rendered="{!if(order.quote.RecordType.Name = 'Export',true,false)}">
+                            <apex:param value="{!order.Due_Balance__c }" />
+                        </apex:outputText>
+                </td>
+            </tr>
+        </table>
+
+            <!-- </div> -->
+            </apex:pageBlock>
+            <!-- Sales order/performa invoice page block end -->
+                        <!-- Comerical terms & condition page block start -->
+                        <!-- <apex:pageBlock rendered="{! If(Order.RecordType.Name=='Export' ,true,false) }"> -->
+                        <div style="page-break-after:always;"/>
+                        <h2 style="color:#ae1916; text-align:center; font-family: 'Open Sans', sans-serif;width: 70%; margin: 0 auto;font-size:17px;">Commercial Terms &amp; Conditions</h2>
+
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">PRICE:</b> The Basic prices Order are based on 
+                            <apex:outputText rendered="{!if(AND(Order.FOB__c == true,Order.Transportation_Charges__c!=true,Order.Insurance__c != true),true,false)}" value=" FOB"/>
+                            <apex:outputText rendered="{!if(AND(Order.FOB__c == true,Order.Transportation_Charges__c==true,Order.Insurance__c == true),true,false)}" value=" CIF" />
+                            <apex:outputText rendered="{!if(AND(Order.FOB__c == true,Order.Transportation_Charges__c=true,Order.Insurance__c != true),true,false)}" value=" CNF"/>
+                            <apex:outputText rendered="{!if(AND(Order.FOB__c != true,Order.Transportation_Charges__c == true,Order.Insurance__c != true),true,false)}" value=" Ex-works"/>
+                            <apex:outputText rendered="{!if(AND(Order.FOB__c != true,Order.Transportation_Charges__c!=true,Order.Insurance__c != true),true,false)}" value=" Ex-works" />
+                            <!--  ,<apex:outputField value=" {!Order.Place_of_Supply__c} "/>(INDIA). -->
+                            .</p> 
+                        <apex:outputText rendered="{!if(Order.Packing__c == True,true,false)}">
+                            <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">PACKING:  </b> <apex:outputField value=" {!Order.Packing_Type__c} "/>  is included in the price</p>
+                        </apex:outputText>
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">DELIVERY: </b><apex:outputfield value=" {!Order.Delivery_Time__c}"></apex:outputfield> ex our works from the date of receipt of your confirm order and advance payment. Delivery will also subject to force major conditions. We shall try to make shipment as fast as possible.</p>
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">PAYMENT TERMS: </b>{!order.Payment_Term__c} 
+                        
+                        </p> 
+                            <p style="font-family: 'Open Sans', sans-serif; font-size:12px; font-weight:bold; color:#ae1916; display:{!if(Order.Payment_Term__c == 'By LC - 100% along with Irrocavarable L.C., L.C. Tenor - At Sight','','none')}">If Payment by LC, kindly send LC Draft copy by email for our Approval before Openning the same.</p>
+                        
+                        <p style="padding:0; font-family: 'Open Sans', sans-serif; font-size:12px; display:{!if(Order.Payment_Term__c == 'By LC - 100% along with Irrocavarable L.C., L.C. Tenor - At Sight','','none')}">
+                            <span style="font-size:12px;"><apex:outputText value="1. Payment 100% by IRRECOVERABLE LC." /><br/>
+                            <apex:outputText value="2. TENOR: AT SIGTH LC (Latter of Credit)." /><br/>
+                            <apex:outputText value="3. LC VALIDITY: 120 Days (6 month)." /><br/>
+                            <apex:outputText value="4. Bank Charges: All Bank Charges outside INDIA will in Buyer Accounts Only. All Banks Charges inside INDIA will be on our accounts." /><br/>
+                            <apex:outputText value="5. LC Should be from reputed Nationalise Bank of USA / UK Only." /><br/>
+                            <!-- <apex:outputText value="6. DISCREPANCY CHARGES: If any will in Buyer Account." /><br/> -->
+                            <apex:outputText value="6. LC is under Name of:"/>&nbsp;<span style="font-weight: bold; color:#ae1916;">{!order.quote.Entity_Name__c}</span><br/></span>
+                        </p>
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><apex:outputText rendered="{!if(AND(Order.RecordType.Name == 'Domestic'),true,false)}" value="Interest @ 18% will be charged in bills unpaid within one month."/></p>
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;"><apex:outputText rendered="{!if(Order.RecordType.Name == 'Domestic',true,false)}" value="Taxes & Duties:" /> </b><apex:outputText rendered="{!if(Order.RecordType.Name == 'Domestic',true,false)}" value="Taxes (Government levies) & duties as applicable will charge on the cost of the
+                                                                                                                                                                                                                                                                                                                        machine and packing charges. Taxes & duties shall charge based on those ruling at the time of dispatch
+                                                                                                                                                                                                                                                                                                                        of consignment. "/></p>
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><apex:outputText rendered="{!if(AND(Order.RecordType.Name == 'Domestic'),true,false)}" value="In Gujarat buyer will be charged, G.S.T. (S.G.S.T. + C.G.S.T) as per Government tax rates. Out side
+                                                                                                                                                                                                                Gujarat buyer will be charged, G.S.T. (I.G.S.T) as per Government tax rates."/></p>
+                    
+                        <ul style="padding:0;font-family: 'Open Sans', sans-serif;font-size:12px;">
+                            <li>The bank details are as under.</li>
+                            
+                            <li>Beneficiary Name : <span style="color:#ae1916;">{!Order.Quote.Entity_Name__c}</span></li>
+                            <li>Beneficiary Account : <span style="color:#ae1916;">{!Order.Quote.Bank_Lookup__r.Account_Number__c}</span></li>
+                            <li>Beneficiary Bank : <span style="color:#ae1916;">{!Order.Quote.Bank_Lookup__r.Name}</span></li>
+                            <li>IFSC code : <span style="color:#ae1916;">{!Order.Quote.Bank_Lookup__r.IFSC_Code__c	}</span></li>
+                        </ul>
+                        <ul style="padding:0;font-family: 'Open Sans', sans-serif;font-size:12px;">
+                            <li>Kindly use correspondence bank as following.</li>
+
+                            <li>Currency: <span style="color:#ae1916;"> {!Order.Quote.CurrencyIsoCode} </span></li>
+                            <li>Correspondent Bank Name:<span style="color:#ae1916;"> {!Order.Quote.Bank_Lookup__r.Correspondent_Bank_Name__c} </span> </li>
+                            <li>Correspondent Bank Swift Code: <span style="color:#ae1916;"> {!Order.Quote.Bank_Lookup__r.Correspondent_Bank_Swift_Code__c} </span></li>
+                            <li>Correspondent Bank Clearing Code:<span style="color:#ae1916;"> {!Order.Quote.Bank_Lookup__r.Correspondent_Bank_Clearing_Code__c} </span> </li>
+                            <li>Nostro Account Number: <span style="color:#ae1916;"> {!Order.Quote.Bank_Lookup__r.Nostro_Account_Number__c}</span></li>
+                        </ul>
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">INSPECTION:</b> If you wish you can depute your representative to inspect the machines at our factory prior to dispatch.
+                        </p>
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;"><b style="color:#499bc9;">INSTALLATION: </b>The machines will be supplied in semi dismantle condition. If you require, we shall depute our technician to install the machines at your site. The installation charges is <span style="color:#ae1916;"> {!order.CurrencyIsoCode}&nbsp;{!order.Installation_Charges__c} </span> per each machine plus to and fro air ticket, visa, hotel accommodation including lodging and boarding, local transportation, medical expenses and other miscellaneous expenses will be arranged and paid by buyer.</p>
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;">
+                            <b style="color:#499bc9;">WARRANTY: </b>
+                            We would consider Machinery / it's equipment <span style="color: #ae1916;font-weight:bold;"><b>limited {!order.Quote.Warranty__c}</b> </span> warranty for any manufacturing defects. No warranty/guarantee applies to any consumable products.
+                            <!-- We would consider product’s  for any manufacturing defects. No warranty/guarantee apply on any consumable products.
+                            Machinery &amp; it's euipments will come with standard / limited respecive brand warranty, no warranty / guaranty apply on any consumable products.-->
+                        </p> 
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;">
+                            <b style="color:#499bc9;">ARBITRATION: </b>
+                            All disputes of differences, whatsoever arising between the parties out of or relating to the construction,
+                            meaning and operation or effect of this contract or breach thereof shall be settled by arbitration of Indian council of arbitration and the award made in pursuance thereof shall be binding on the parties.</p>
+                        
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;">For, <b>{!Order.Quote.Entity_Name__c}</b></p>
+                        
+                        <h4 style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px; margin-top:40px;">AUTHORISED SIGNATURE</h4>   
+                        
+                        <!-- Comerical terms & condition page block End -->
+                        
+                        <!-- Acceptence of commercial terms block start -->
+                        <div style="page-break-after:always;"/>
+
+                        <!-- <h3 style="color:#ae1916; text-align:center;font-family: 'Open Sans', sans-serif; font-size:17px; width:100%; margin:0 auto;">Annexure E</h3>-->
+                        <h2 style="color:#ae1916; text-align:center; font-family: 'Open Sans', sans-serif;width: 60%;
+                                margin: 0 auto; font-size:17px;">Acceptance of Commercial Terms &amp; Conditions</h2>
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;">Purchaser / Party Who is mutually agreed for the Purchase of Goods after studying and understanding of all the Commercial Terms and Condition mentioned in above pages.</p>
+                        
+                        <p style="color:#000; font-family: 'Open Sans', sans-serif; font-size:12px;">Purchaser / Party has been acceptance in full of our Purchase order in Sound mind and conscious condition. They have given acceptance by Stamp and their Sign in this page.</p>
+                        
+                        <table border="0" cellpadding="8" style="font-family: 'Open Sans', sans-serif; width:100%; text-align:left; font-size: 16px;border-collapse:collapse; font-family: 'Open Sans', sans-serif; margin-top:90px;">
+                            
+                            <tr>
+                                <td style="padding:0px; margin:0; padding-left:8px;font-size: 12px; width:50%;font-weight:bold;">Sincerely yours,</td>
+                                <td style="padding:0px; margin:0; padding-left:8px;font-size: 12px;font-weight:bold;">Buyer’s</td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="width:50%; color:#367db7; padding-top:40px; margin:0; text-align:left; font-family: 'Open Sans', sans-serif; font-weight:bold; font-size:12px;">{!order.Entity_Name__c}</td>
+                                <td style="color:#367db7; padding-top:40px; margin:0; text-align:left; font-family: 'Open Sans', sans-serif; font-weight:bold; font-size:12px;">Representative Name, Signature with Company Seal</td>
+                            </tr>
+                        </table>
+    </html>
+</apex:page>

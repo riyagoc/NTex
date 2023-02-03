@@ -1,17 +1,15 @@
-public class QuotePDFController {
-    
+public with sharing class PurchaseOrderController {
+
     @auraEnabled
-    public static void savePdf(string recordId)
+    public Static void saveOrderPDF(string recordId)
     {
         //system.debug(recordId);
-        PageReference pdfPage = new PageReference('/apex/QuoteVerticalPerforma');
+        PageReference pdfPage = new PageReference('/apex/SalesOrderDocumentNew');
         pdfPage.getParameters().put('Id',recordId);
-         String quotationNumber  = [SELECT Id, Name,Quote_Number__c FROM Quote WHERE Id =: recordId].Quote_Number__c;
-        String quotationName  = [SELECT Id, Name FROM Quote WHERE Id =: recordId].Name;
+        String orderName  = [SELECT Id, OrderNumber,Order_Number__c FROM order WHERE Id =: recordId].Order_Number__c;
         ContentVersion cont = new ContentVersion();
-         cont.Title = quotationNumber+' - '+quotationName;
+        cont.Title = orderName +'-Production Order';
         cont.PathOnClient = 'file.pdf';
-        
         blob pdfBody;
         if(Test.isRunningTest()) { 
             pdfBody = blob.valueOf('Unit.Test');
@@ -31,5 +29,4 @@ public class QuotePDFController {
         system.debug(contentlink);
         insert contentlink;
     }
-
 }

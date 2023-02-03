@@ -10,18 +10,18 @@ public static boolean updateQuote=false;
        
         QuoteTriggerHandler.updateAfterinsert(trigger.new);
     }
-    if(trigger.isAfter && trigger.isUpdate){
-        Set<Id> quoteId=new set<Id>();
-        for(Quote quo:Trigger.new){
-            Quote oldQuote = Trigger.oldMap.get(quo.ID);
-            if(quo.status=='Accepted' && quo.Status != oldQuote.Status && updateQuote==false) {
-                quoteId.add(quo.id);
-                updateQuote=true;
-            }
-        }
-        if(!quoteId.isEmpty()){
-            OrderCreationController.createOrder(quoteId);
-        }
-    }
+    // if(trigger.isAfter && trigger.isUpdate){
+    //     Set<Id> quoteId=new set<Id>();
+    //     for(Quote quo:Trigger.new){
+    //         Quote oldQuote = Trigger.oldMap.get(quo.ID);
+    //         if(quo.status=='Accepted' && quo.Status != oldQuote.Status && updateQuote==false) {
+    //             quoteId.add(quo.id);
+    //             updateQuote=true;
+    //         }
+    //     }
+    //     if(!quoteId.isEmpty()){
+    //         OrderCreationController.createOrder(quoteId);
+    //     }
+    // }
 
 }

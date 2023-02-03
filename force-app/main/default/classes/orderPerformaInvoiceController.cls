@@ -1,17 +1,20 @@
 public class orderPerformaInvoiceController {
     Private order ord;
-    @TestVisible List<Bank_Details__mdt> metaDataList = new List<Bank_Details__mdt>();
+   
     List<Order> qtsRecords = new list<Order>();
     List<Advance_Payment__c> advPaymentRecords {get; set;} 
     
     public orderPerformaInvoiceController(ApexPages.StandardController controller)
     {
         this.ord = (Order)controller.getRecord();
-        qtsRecords = [select id,Quote.RecordType.Name,Quote.Bank__c,PI_Number__c,Is_Performa_Generate__c,Total_Amount_Performa_Invoice__c,Quote.Entity_Name1__c from Order where id =: ord.id];
+        qtsRecords = [select id,Name,Order_Number__c,Quote.RecordType.Name,Quote.Bank__c,PI_Number__c,Is_Performa_Generate__c,Total_Amount_Performa_Invoice__c,Quote.Entity_Name1__c from Order where id =: ord.id];
         String a = '%'+qtsRecords[0].Quote.Bank__c+'%';
         String EntityName = qtsRecords[0].Quote.Entity_Name1__c;
-        metaDataList = [select Account_Number__c,Branch__c,IFSC_Code__c,Beneficiary_Account__c,Beneficiary_Bank__c,Beneficiary_Name__c,Swift_code__c from Bank_Details__mdt where Bank_API__c like :a AND Entity_Name__c =:EntityName Limit 1];
-        // system.debug('Line number 10 -----'+ qtsRecords[0].Total_Amount_Performa_Invoice__c);
+        String myGeneratedFileName = qtsRecords[0].Order_Number__c ;
+        
+        Apexpages.currentPage().getHeaders().put('content-disposition', 'inline; filename='+myGeneratedFilename+'.pdf'); 
+        system.debug(EntityName);
+        
     
     } 
     public List<Advance_Payment__c> getadvPaymentRecords(){
@@ -24,19 +27,31 @@ public class orderPerformaInvoiceController {
     
     public decimal getPackingLineTotal(){
         List<Order> odr=[Select id,Packing_Charges__c, Packing_GST_Amount__c from Order where id =: ord.id];
-        Decimal Amount=odr[0].Packing_Charges__c+odr[0].Packing_GST_Amount__c;
+        Decimal Amount;
+        if(odr[0].Packing_Charges__c!=null && odr[0].Packing_GST_Amount__c!=null){
+            Amount=odr[0].Packing_Charges__c+odr[0].Packing_GST_Amount__c;
+        }
         return Amount;
     }
     public decimal getInsuranceLineTotal(){
-        List<Order> odr=[Select id,Final_Value__c,Insurance_GST_Amount__c from Order where id =: ord.id];
-        Decimal finalval=odr[0].Final_Value__c != null?odr[0].Final_Value__c:0.0 ;
-        Decimal Insurance=odr[0].Insurance_GST_Amount__c !=null?odr[0].Insurance_GST_Amount__c:0.0;
-        Decimal Amount = finalval+Insurance;
+        Decimal Amount;
+
+        List<Order> odr=[Select id,Insurance1__c,Calculated_values__c,Final_Value__c,Total_After_Discount_Hidden__c,Insurance_GST_Amount__c from Order where id =: ord.id];
+        
+        if(odr[0].Calculated_values__c != null && odr[0].Insurance_GST_Amount__c !=null){
+            Amount=odr[0].Calculated_values__c+odr[0].Insurance_GST_Amount__c;
+
+        }else if(odr[0].Final_Value__c != null && odr[0].Insurance_GST_Amount__c !=null){
+             Amount=odr[0].Final_Value__c+odr[0].Insurance_GST_Amount__c;
+        }
         return Amount;
     }
     public decimal getTransportLineTotal(){
         List<Order> odr=[Select id,Transport_Charges__c,Transport_GST_Amount__c  from Order where id =: ord.id];
-        Decimal Amount=odr[0].Transport_Charges__c+odr[0].Transport_GST_Amount__c ;
+        Decimal Amount;
+        if(odr[0].Transport_Charges__c !=null && odr[0].Transport_GST_Amount__c !=null ){
+           Amount=odr[0].Transport_Charges__c+odr[0].Transport_GST_Amount__c ;
+        }
         return Amount;
     }
     public decimal getTotal_After_Discount(){
@@ -50,8 +65,8 @@ public class orderPerformaInvoiceController {
         return Amount;
     }
     public String getAmtInWords() {
-        List<order> qtsQry = [select Total_Amount_Performa_Invoice__c from order where id =: ord.Id];
-        Decimal Amnt = qtsQry[0].Total_Amount_Performa_Invoice__c;
+        List<order> qtsQry = [select Round_Off__c,Total_Amount_Performa_Invoice__c from order where id =: ord.Id];
+        Decimal Amnt = qtsQry[0].Round_Off__c;
         string amtInWords = NumberTOWordConvertion.getNumberTOWordConvertion(Amnt);
         return amtInWords;
     }
@@ -62,9 +77,9 @@ public class orderPerformaInvoiceController {
      }
     
     public String getroundoffValue() {
-        List<Order> qtsQry = [select id,Quote.RecordType.Name,Bank__c,Quote.Total_OF_All__c,Quote.Entity_Name1__c,Round_Off__c from Order where id =: ord.Id];
+        List<Order> qtsQry = [select id,Quote.RecordType.Name,Bank__c,Total_Amount_Performa_Invoice__c,Quote.Entity_Name1__c,Round_Off__c from Order where id =: ord.Id];
         //Decimal Amnt = qtsQry[0].Round_Off__c;
-        String s = String.valueOf(qtsQry[0].Quote.Total_OF_All__c);
+        String s = String.valueOf(qtsQry[0].Total_Amount_Performa_Invoice__c);
         String roundOffValue =s.substringAfter('.');
         if(roundOffValue >='50'){
             Integer roundOffValue2= 100- Integer.valueof(roundOffValue);
@@ -78,7 +93,7 @@ public class orderPerformaInvoiceController {
         }
     }
     
-    public void updatingSeries()
+    /*public void updatingSeries()
     {
         Count__c ct = Count__c.getOrgDefaults();
         
@@ -101,29 +116,7 @@ public class orderPerformaInvoiceController {
         
         update qtsRecords[0];
         update ct;
-    }
+    }*/
     
-    public string getBeneficiaryName(){
-        return metaDataList[0].Beneficiary_Name__c;
-    }
-    public decimal getBeneficiaryAccount(){
-        return metaDataList[0].Beneficiary_Account__c;
-    }
-    public string getBeneficiaryBank(){
-        return metaDataList[0].Beneficiary_Bank__c;
-    }
-    public string getBeneficiarySwiftcode(){
-        return metaDataList[0].Swift_code__c;
-    }
-    public string getIFSCCode(){
-        return metaDataList[0].IFSC_Code__c;
-    }
-    public string getbranch(){
-        return metaDataList[0].Branch__c;
-    }
-    public string getPiNumber(){
-        qtsRecords = [select id,Quote.Bank__c,PI_Number__c,Is_Performa_Generate__c,Total_Amount_Performa_Invoice__c from Order where id =: ord.id];
-        return String.valueOf(qtsRecords[0].PI_Number__c);
-    }
     
 }

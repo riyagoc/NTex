@@ -4,11 +4,11 @@ public class OrderPDFController {
     public Static void saveOrderPDF(string recordId)
     {
         //system.debug(recordId);
-        PageReference pdfPage = new PageReference('/apex/SalesOrderDocumentNew');
+        PageReference pdfPage = new PageReference('/apex/OrderVerticalPerforma');
         pdfPage.getParameters().put('Id',recordId);
-        String orderName  = [SELECT Id, OrderNumber FROM order WHERE Id =: recordId].OrderNumber;
+        String orderName  = [SELECT Id, OrderNumber,Order_Number__c FROM order WHERE Id =: recordId].Order_Number__c;
         ContentVersion cont = new ContentVersion();
-        cont.Title = orderName +'-'+ date.today();
+        cont.Title = orderName +'-Sales Order/Pro-Forma Invoice';
         cont.PathOnClient = 'file.pdf';
         blob pdfBody;
         if(Test.isRunningTest()) { 

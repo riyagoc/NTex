@@ -1,16 +1,16 @@
-<aura:component controller = "OrderPDFController" implements="force:lightningQuickActionWithoutHeader,flexipage:availableForRecordHome,force:hasRecordId"
+<aura:component controller = "PurchaseOrderController" implements="force:lightningQuickActionWithoutHeader,flexipage:availableForRecordHome,force:hasRecordId"
                  access="global">
 	
     <aura:attribute name="recordId" type="Id" />
    
     <!--Modal Header-->
     <div class="modal-header slds-modal__header slds-size_1-of-1" style="position: fixed;left: 0;width:100%;right: 0;top: 0;z-index: 999999;">
-        <h4 class="title slds-text-heading--medium">Sales Order/Pro-Forma Invoice</h4>
+        <h4 class="title slds-text-heading--medium">Production Order</h4>
     </div>
     <!--End Modal Header -->
   <!-- Modal Body-->
         <div class="slds-modal__content slds-p-around--x-small slds-align_absolute-center slds-size_1-of-1 slds-is-relative">
-            <iframe src="{! '/apex/OrderVerticalPerforma?Id=' + v.recordId }" width="100%" height="1000px;" frameBorder="0"/>
+            <iframe src="{! '/apex/SalesOrderDocumentNew?Id=' + v.recordId }" width="100%" height="1000px;" frameBorder="0"/>
         </div>
     <!--End of Modal Body-->
    

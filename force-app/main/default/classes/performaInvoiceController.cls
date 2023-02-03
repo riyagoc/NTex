@@ -8,7 +8,7 @@ public with sharing class performaInvoiceController {
         pdfPage.getParameters().put('Id',recordId);
         String orderName  = [SELECT Id, Order_Number__c FROM Order WHERE Id =: recordId].Order_Number__c;
         ContentVersion cont = new ContentVersion();
-        cont.Title = 'Performa invoice of '+orderName +'/'+ date.today();
+        cont.Title = 'Sales Order/Pro-Forma Invoice of '+orderName ;
         cont.PathOnClient = 'file.pdf';
         blob pdfBody;
         if(Test.isRunningTest()) { 

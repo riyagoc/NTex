@@ -6,7 +6,7 @@
    
     <!--Modal Header-->
     <div class="modal-header slds-modal__header slds-size_1-of-1" style="position: fixed;left: 0;width:100%;right: 0;top: 0;z-index: 999999;">
-         <h4 class="title slds-text-heading--medium">Sales Quotation</h4>
+         <h4 class="title slds-text-heading--medium">Sales Quotation/Pro-Forma Invoice</h4>
     </div>
     <!--End Modal Header -->
   <!-- Modal Body-->
